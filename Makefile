@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = minishell.c handle_signals.c commandList.c
+SRC = minishell.c handle_signals.c commandList.c commandExec.c
 
 OBJ = ${SRC:.c=.o}
 

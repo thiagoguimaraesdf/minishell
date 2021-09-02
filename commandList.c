@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:32:57 by tguimara          #+#    #+#             */
-/*   Updated: 2021/08/27 09:39:24 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/02 15:44:17 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	countArgs(char **tokens)
 	i = 0;
 	while (*(tokens + i) && ft_strncmp(*(tokens + i), ">", 2))
 	{
-		printf("token:%s\n", *(tokens + i));
+		// printf("token:%s\n", *(tokens + i));
 		i++;	
 	}
 	return (i);
@@ -43,31 +43,36 @@ t_command	**commandList(char *buffer)
 	i = 0;
 	while (commands && *commands)
 	{
-		printf("commandList:%s\n", *commands);
 		tokens = ft_split(*commands, ' ');
-		*commandList = (t_command *)malloc(sizeof(t_command));
-		(*commandList)->command = ft_strdup(*tokens);
+		if (!(*tokens))
+			break ;
+		commandList[i] = (t_command *)malloc(sizeof(t_command));
+		commandList[i]->command = ft_strdup(*tokens);
 	 	printf("command:%s\n", *tokens);
 		tokens++;
 		total_args = countArgs(tokens);
 		printf("total args:%d\n", total_args);
-		(*commandList)->args = (char **)malloc(total_args * sizeof(char *));
+		if (total_args)
+			commandList[i]->args = (char **)malloc(total_args * sizeof(char *));
 		while (total_args)
 		{
-			(*commandList)->args[total_args - 1] = *(tokens + total_args - 1);
-			printf("arg:%s\n", (*commandList)->args[total_args - 1]);
+			commandList[i]->args[total_args - 1] = *(tokens + total_args - 1);
+			printf("arg:%s\n", commandList[i]->args[total_args - 1]);
 			total_args--;
 		}
+		// printf("hey\n");
 		tokens = tokens + countArgs(tokens);
-		printf("redir:%s\n", *tokens);
+		if (countArgs(tokens) && !ft_strncmp(*tokens, ">", 2))
+		{
+			tokens++;
+			commandList[i]->redirection_out = ft_strdup(*tokens);			
+		}
 		/*
 			Dealing with redirections
 		*/
 		// default setting for in and outfiles
-		int	fd;
-
-		(*commandList)->infile = 0;
-		(*commandList)->outfile = 1;
+		// (*commandList)->infile = 0;
+		// (*commandList)->outfile = 1;
 		// if (*tokens)
 		// {
 		// 	if (ft_strncmp(*tokens, "<", 2))
@@ -101,6 +106,12 @@ t_command	**commandList(char *buffer)
 		// }
 		printf("floop\n");
 		commands++;
+		i++;
+		// free(tokens);
+		// tokens = NULL;
 	}
+	commandList[i] = NULL;
+	// free(commands);
+	// commands = NULL;
 	return (commandList);
 }
