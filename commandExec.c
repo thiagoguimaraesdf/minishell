@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/02 16:03:30 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/02 22:46:13 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,30 @@ int	commandExec(t_command *command, char **builtinList)
 		if (child_pid == 0)
 		{
 			printf("child\n");
-			// if (*command->redirection_out)
-			// {
-			// 	printf("redir\n");
-			// 	close(1);
-			// 	if (!open(command->redirection_out, O_WRONLY))
-			// 		return (-1);
-			// }
+			if (command->redirection_out && *command->redirection_out)
+			{
+				printf("redir_out\n");
+				close(1);
+				if (!open(command->redirection_out, O_WRONLY))
+					return (-1);
+			}
+			if (command->redirection_in && *command->redirection_in)
+			{
+				printf("redir_in\n");
+				close(0);
+				if (!open(command->redirection_in, O_RDONLY))
+					return (-1);
+			}
 			printf("path:%s\n", ft_strjoin(cur_path, command->command));
-			char *newargv[] = {"ls", NULL};
-			execve(ft_strjoin(cur_path, command->command), newargv, NULL);
+			printf("arg0:%s\n", command->args[0]);
+			printf("arg1:%s\n", command->args[1]);
+			execve(ft_strjoin(cur_path, command->command), command->args, NULL);
 		}
 		else
+		{	
 			wait(&child_pid);
+			printf("back to shell\n");
+		}
 	}
 	return (0);	
 }

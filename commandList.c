@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:32:57 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/02 15:44:17 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/02 22:50:43 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,32 @@ t_command	**commandList(char *buffer)
 		tokens++;
 		total_args = countArgs(tokens);
 		printf("total args:%d\n", total_args);
-		if (total_args)
-			commandList[i]->args = (char **)malloc(total_args * sizeof(char *));
-		while (total_args)
+		if (total_args > 0)
 		{
-			commandList[i]->args[total_args - 1] = *(tokens + total_args - 1);
-			printf("arg:%s\n", commandList[i]->args[total_args - 1]);
+			commandList[i]->args = (char **)malloc((total_args + 2) * sizeof(char *));
+			commandList[i]->args[total_args + 1] = NULL;		
+		}
+		else
+		{
+			commandList[i]->args = (char **)malloc(sizeof(char *) * 2);
+			commandList[i]->args[1] = NULL;
+		}				
+		commandList[i]->args[0] = commandList[i]->command;
+		while (total_args - 1 >= 0)
+		{
+			commandList[i]->args[total_args] = *(tokens + total_args - 1);
+			printf("arg:%s\n", commandList[i]->args[total_args]);
 			total_args--;
 		}
-		// printf("hey\n");
 		tokens = tokens + countArgs(tokens);
-		if (countArgs(tokens) && !ft_strncmp(*tokens, ">", 2))
+		printf("token:%s\n", *tokens);
+		commandList[i]->redirection_out = NULL;
+		commandList[i]->redirection_in = NULL;		
+		if (*tokens && !ft_strncmp(*tokens, ">", 2))
 		{
 			tokens++;
-			commandList[i]->redirection_out = ft_strdup(*tokens);			
+			commandList[i]->redirection_out = ft_strdup(*tokens);
+			printf("redirout:%s\n", commandList[i]->redirection_out);	
 		}
 		/*
 			Dealing with redirections

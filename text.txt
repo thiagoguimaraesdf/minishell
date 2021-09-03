@@ -1,1 +1,25 @@
-tudo bom
+path:/usr/bin/ls
+arg0:ls
+arg1:-la
+total 116
+drwxr-xr-x  6 tguimara tguimara  4096 Sep  2 22:50 .
+drwxr-xr-x 12 tguimara tguimara  4096 Aug 25 15:54 ..
+drwxr-xr-x  8 tguimara tguimara  4096 Sep  2 16:05 .git
+drwxr-xr-x  2 tguimara tguimara  4096 Aug 25 12:52 .vscode
+-rw-r--r--  1 tguimara tguimara   432 Aug 27 10:48 Makefile
+-rw-r--r--  1 tguimara tguimara  1452 Aug 27 10:16 commandChecker.c
+-rw-r--r--  1 tguimara tguimara  2266 Sep  2 22:46 commandExec.c
+-rw-r--r--  1 tguimara tguimara  3472 Sep  2 22:46 commandExec.o
+-rw-r--r--  1 tguimara tguimara  3568 Sep  2 22:50 commandList.c
+-rw-r--r--  1 tguimara tguimara  3608 Sep  2 22:50 commandList.o
+-rwxr-xr-x  1 tguimara tguimara 17048 Aug 25 13:06 ft_shell
+-rw-r--r--  1 tguimara tguimara  1373 Aug 25 14:56 handle_signals.c
+-rw-r--r--  1 tguimara tguimara  2064 Aug 25 15:07 handle_signals.o
+drwxr-xr-x  6 tguimara tguimara  4096 Aug 25 13:37 libft
+-rwxr-xr-x  1 tguimara tguimara 22528 Sep  2 22:50 minishell
+-rw-r--r--  1 tguimara tguimara  1784 Sep  2 15:23 minishell.c
+-rw-r--r--  1 tguimara tguimara  1432 Sep  2 15:31 minishell.h
+-rw-r--r--  1 tguimara tguimara  2696 Sep  2 15:36 minishell.o
+drwxr-xr-x  3 tguimara tguimara  4096 Aug 27 10:23 mysh
+-rw-r--r--  1 tguimara tguimara  1291 Sep  2 22:51 text.txt
+ 2 22:41 text.txt
