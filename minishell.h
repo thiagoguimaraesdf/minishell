@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/02 15:31:37 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/03 14:28:36 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include "libft/include/libft.h"
+# include "libft/include/ft_printf.h"
 
 typedef struct s_command {
 	char				*command;
@@ -34,6 +35,6 @@ typedef struct s_command {
 void		handle_signals(void);
 t_command	**commandList(char *buffer);
 int			commandChecker(t_command *command);
-int			commandExec(t_command *command, char **builtinList);
+int			commandExec(t_command *command, char **builtinList, char **path);
 
 #endif
