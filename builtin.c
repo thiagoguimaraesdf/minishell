@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 14:55:49 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/21 15:49:25 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,6 +353,6 @@ void	myExit(t_config **shell_config, t_pipeline **pipeline)
 	if (*pipeline)
 		free_pipeline(pipeline);
 	if (*shell_config)
-		free_shell_config(shell_config);
+		free_config(shell_config);
 	exit(1);
 }
