@@ -6,10 +6,11 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 14:43:08 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 15:48:54 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/21 15:51:17 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "../include/libft.h"
 
 void 	ft_free_str_array(char ***str_array)

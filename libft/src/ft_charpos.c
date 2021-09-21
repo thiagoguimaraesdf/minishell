@@ -6,14 +6,14 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 13:31:16 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/14 13:31:28 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/21 15:51:55 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_charpos(char *str, char c)
 {
 	int	i;
-	
+
 	i = 0;
 	while (str && str[i])
 	{
