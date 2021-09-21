@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = minishell.c handle_signals.c parser.c executor.c builtin.c \
+SRC = minishell.c signals.c parser.c executor.c builtin.c \
 environment.c tokenizer.c
 
 OBJ = ${SRC:.c=.o}
