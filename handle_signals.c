@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:11:29 by tguimara          #+#    #+#             */
-/*   Updated: 2021/08/25 14:56:35 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/17 10:28:13 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 
 static void	handle_interrupt(int sig_num)
 {
-	rl_replace_line("\n", 0);
+	(void)sig_num;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 	return ;

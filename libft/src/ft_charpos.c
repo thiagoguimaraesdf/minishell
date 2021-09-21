@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_charpos.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/21 14:42:51 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/16 22:59:19 by tguimara         ###   ########.fr       */
+/*   Created: 2021/09/14 13:31:16 by tguimara          #+#    #+#             */
+/*   Updated: 2021/09/14 13:31:28 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdlib.h>
-#include "../include/libft.h"
-
-char	*ft_strdup(const char *s)
+int	ft_charpos(char *str, char c)
 {
-	int		i;
-	char	*ptr;
-	size_t	s_len;
-
-	s_len = ft_strlen(s);
-	ptr = malloc(s_len + 1);
-	if (ptr == NULL)
-		return (NULL);
+	int	i;
+	
 	i = 0;
-	while (*(s + i) != '\0')
+	while (str && str[i])
 	{
-		*(ptr + i) = *(s + i);
+		if (str[i] == c)
+			return (i);
 		i++;
 	}
-	*(ptr + i) = '\0';
-	return (ptr);
+	return (-1);
 }

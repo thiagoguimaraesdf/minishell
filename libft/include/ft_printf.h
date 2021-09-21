@@ -6,13 +6,13 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 10:43:02 by tguimara          #+#    #+#             */
-/*   Updated: 2021/08/23 15:04:11 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/07 11:39:11 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-# define ERROR 1
+# define ERROR -1
 # include "libft.h"
 # include <stdarg.h>
 # include <string.h>

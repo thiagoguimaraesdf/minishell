@@ -6,7 +6,7 @@
 #    By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/18 17:30:09 by tguimara          #+#    #+#              #
-#    Updated: 2021/08/23 15:03:44 by tguimara         ###   ########.fr        #
+#    Updated: 2021/09/21 14:44:22 by tguimara         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,9 @@ src/ft_strchr.c src/ft_strrchr.c src/ft_strnstr.c src/ft_strncmp.c src/ft_atoi.c
 src/ft_isalpha.c src/ft_isdigit.c src/ft_isalnum.c src/ft_isascii.c src/ft_isprint.c \
 src/ft_toupper.c src/ft_tolower.c src/ft_calloc.c src/ft_strdup.c src/ft_substr.c \
 src/ft_strjoin.c src/ft_strtrim.c src/ft_split.c src/ft_itoa.c src/ft_strmapi.c \
-src/ft_putchar_fd.c src/ft_putstr_fd.c src/ft_putendl_fd.c src/ft_putnbr_fd.c
-
+src/ft_putchar_fd.c src/ft_putstr_fd.c src/ft_putendl_fd.c src/ft_putnbr_fd.c \
+src/ft_charpos.c src/ft_free_str_array.c
+ 
 SRC_BONUS = src/ft_lstnew.c src/ft_lstadd_front.c src/ft_lstsize.c src/ft_lstlast.c src/ft_lstadd_back.c \
 src/ft_lstdelone.c src/ft_lstclear.c src/ft_lstiter.c
 
