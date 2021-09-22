@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 15:32:12 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 12:04:39 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 13:46:20 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,24 +94,25 @@ static int	expandVar(char *str, t_token **token, t_env *env, int exit_status)
 {
 	char		*buffer;
 	char		*content;
+	int			dest_size;
 	int 		size;
 	
 	buffer = ft_substr(str, 1, endVarPos(str));
 	if (!buffer)
 		return (-1);
 	size = -1;
+	dest_size = ft_strlen((*token)->content);
 	if (*buffer == '?')
 	{
 		content = ft_itoa(exit_status);
-		ft_strlcat((*token)->content, content, ft_strlen(content) + 1);
+		ft_strlcat((*token)->content, content, ft_strlen(content) + dest_size + 1);
 		free(content);
 		size = 2;
 	}
 	else if (isEnv(env, buffer))
 	{
 		content = getEnvContent(buffer, env);
-		ft_strlcat((*token)->content, content, ft_strlen(content) + 1);
-		free(content);
+		ft_strlcat((*token)->content, content, ft_strlen(content) + dest_size + 1);
 		size = ft_strlen(buffer) + 1;
 	}
 	free(buffer);

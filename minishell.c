@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 12:03:51 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 13:30:29 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ static char	**find_path(char **env)
 	char **path;
 	
 	path = NULL;
+	// fazer o trim antes de mandar para loop
+	// verificar antes qual a primiera var do env
+	// *env = ft_strchr(*env, '=');
 	while (*env)
 	{
 		if (!ft_strncmp(*env, "PATH", 4))

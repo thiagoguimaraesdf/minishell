@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 11:42:37 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 13:55:54 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@ static char	*findExecutable(char *command, char *cur_dir, char **path);
 static void	exec_builtin(t_pipeline **pipeline, t_config **shell_config)
 {
 	t_command *command;
-	t_env **env;
+	t_env *env;
 	
 	command = (*pipeline)->command_list;
-	env = &(*shell_config)->env;
+	// env = (*shell_config)->env;
 	if (!ft_strncmp(command->command, "pwd", 3))
 		myPwd();
 	else if (!ft_strncmp(command->command, "env", 3))
-		myEnv(command->total_args, command->args, *env);
+		myEnv(command->total_args, command->args, (*shell_config)->env);
 	else if (!ft_strncmp(command->command, "export", 6))
-		myExport(command->total_args, command->args, env);
+		myExport(command->total_args, command->args, &(*shell_config)->env);
 	else if (!ft_strncmp(command->command, "unset", 5))
-		myUnset(command->total_args, command->args, env);
+		myUnset(command->total_args, command->args, &(*shell_config)->env);
 	else if (!ft_strncmp(command->command, "cd", 2))
 		myCd(command->total_args, command->args);
 	else if (!ft_strncmp(command->command, "echo", 4))
