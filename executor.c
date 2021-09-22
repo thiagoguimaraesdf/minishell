@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 13:55:54 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 14:50:29 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static void	exec_builtin(t_pipeline **pipeline, t_config **shell_config)
 		myEcho(command->args);
 	else if (!ft_strncmp(command->command, "exit", 4))
 		myExit(shell_config, pipeline);
-	exit(1);
+	
+	// exit(1);
 }
 
 static int	read_from_source(t_command *command)
@@ -138,6 +139,7 @@ void	exec(t_pipeline **pipeline, t_config **shell_config)
 				exec_builtin(pipeline, shell_config);
 			else
 				execve(command->exec_path, command->args, t_env_to_array((*shell_config)->env));
+			myEnv(command->total_args, command->args, (*shell_config)->env);
 		}
 		else
 		{

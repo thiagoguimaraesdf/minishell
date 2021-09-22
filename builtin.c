@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 22:25:51 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 14:46:44 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**bultinInit()
 	return (builtin_list);
 }
 
-int		isBuiltin(char *command, char **builtinList)
+int		isBuiltin(char *command, char **builtin_list)
 {
 	int		i;
 	size_t	command_size;
@@ -43,11 +43,11 @@ int		isBuiltin(char *command, char **builtinList)
 	command_size = ft_strlen(command);
 	max_size = command_size;
 	i = 0;
-	while (builtinList && builtinList[i])
+	while (builtin_list && builtin_list[i])
 	{
-		if (ft_strlen(builtinList[i]) > max_size)
-			max_size = ft_strlen(builtinList[i]);
-		if (!ft_strncmp(command, builtinList[i], max_size))
+		if (ft_strlen(builtin_list[i]) > max_size)
+			max_size = ft_strlen(builtin_list[i]);
+		if (!ft_strncmp(command, builtin_list[i], max_size))
 			return (1);
 		if (max_size != command_size)
 			max_size = command_size;
@@ -209,6 +209,7 @@ void	myExport(int total_args, char **args, t_env **env)
 	t_env 	*cur_env;
 	
 	env_args = 1;
+	printf("hey\n");
 	while (args && args[env_args])
 	{
 		if (!ft_strchr(args[env_args], '='))
@@ -221,8 +222,12 @@ void	myExport(int total_args, char **args, t_env **env)
 			update_env(temp_arg, env);
 		else
 		{
+			printf("include:%s\n", args[env_args]);
 			cur_env = getLastEnv(*env);
+			printf("after:%s\n", cur_env->content[0]);
 			envInclude(&cur_env, args[env_args]);
+			cur_env = getLastEnv(*env);
+			printf("new_last_env:%s\n", cur_env->content[0]);
 		}
 		env_args++;		
 	}	

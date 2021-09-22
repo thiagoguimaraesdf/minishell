@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 13:30:29 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 15:15:13 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	main(int argc, char **argv, char **env)
 {
 	char		*buffer;
 	t_pipeline	*pipeline;
-	t_config	*shell_config;
 	
 	handle_signals();
 	if (!init_minishell(&shell_config, env))

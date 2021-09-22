@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 11:49:59 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 15:15:39 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ typedef struct s_config {
 	int					stdout;
 	int					last_exit_status;
 }	t_config;
+
+t_config	*shell_config;
 
 void		handle_signals(void);
 t_command	*parser(t_pipeline **pipeline, char **builtin_list, char **path);
