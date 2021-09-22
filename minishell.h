@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 15:00:25 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/21 22:28:16 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct s_config {
 	int					stdin;
 	int					stdout;
 	int					last_exit_status;
-	t_pipeline			**current_pipe;
 }	t_config;
 
 void		handle_signals(void);
@@ -97,6 +96,7 @@ void		myUnset(int total_args, char **args, t_env **env);
 void		myEnv(int total_args, char **args, t_env *env);
 void		myCd(int total_args, char **args);
 void		myEcho(char **args);
+void		myExit(t_config **shell_config, t_pipeline **pipeline);
 
 // exit
 void	free_pipeline(t_pipeline **pipeline);

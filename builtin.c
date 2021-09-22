@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 15:49:25 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/21 22:25:51 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,7 +299,8 @@ static void	free_command_list(t_command **command_list)
 		if ((*command_list)->exec_path)
 			free((*command_list)->exec_path);
 		(*command_list)->exec_path = NULL;
-		ft_free_str_array(&(*command_list)->args);
+		ft_free_str_array((*command_list)->args);
+		free((*command_list)->args);			
 		free_redirections(command_list);
 		temp_command = (*command_list);
 		(*command_list) = temp_command->next;
@@ -341,8 +342,8 @@ void	free_config(t_config **shell_config)
 {	
 	if (!(*shell_config))
 		return ;
-	ft_free_str_array(&(*shell_config)->builtin_list);
-	ft_free_str_array(&(*shell_config)->path);
+	ft_free_str_array((*shell_config)->builtin_list);
+	ft_free_str_array((*shell_config)->path);
 	free_env_list(&(*shell_config)->env);
 	free(*shell_config);
 	(*shell_config) = NULL;

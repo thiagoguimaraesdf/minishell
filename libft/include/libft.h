@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:24:45 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 15:52:16 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/21 22:20:56 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstdelone(t_list *lst, void (*del)(void*));
 void		ft_lstclear(t_list **lst, void (*del)(void*));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
-void		ft_free_str_array(char ***str_array);
+void		ft_free_str_array(char **str_array);
 
 #endif

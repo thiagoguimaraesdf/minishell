@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 15:00:14 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 10:37:53 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,28 @@
 
 static char	*findExecutable(char *command, char *cur_dir, char **path);
 
-static int	exec_builtin(t_command *command, t_env *env)
+static void	exec_builtin(t_pipeline **pipeline, t_config **shell_config)
 {
-	int	status;
+	t_command *command;
+	t_env **env;
 	
+	command = (*pipeline)->command_list;
+	env = &(*shell_config)->env;
 	if (!ft_strncmp(command->command, "pwd", 3))
 		myPwd();
 	else if (!ft_strncmp(command->command, "env", 3))
-		myEnv(command->total_args, command->args, env);
+		myEnv(command->total_args, command->args, *env);
 	else if (!ft_strncmp(command->command, "export", 6))
-		myExport(command->total_args, command->args, &env);
+		myExport(command->total_args, command->args, env);
 	else if (!ft_strncmp(command->command, "unset", 5))
-		myUnset(command->total_args, command->args, &env);
+		myUnset(command->total_args, command->args, env);
 	else if (!ft_strncmp(command->command, "cd", 2))
 		myCd(command->total_args, command->args);
 	else if (!ft_strncmp(command->command, "echo", 4))
 		myEcho(command->args);
 	else if (!ft_strncmp(command->command, "exit", 4))
-		myExit();
-	else
-	{
-		ft_printf("-myshell: %s: builtin not yet implemented", command->command);
-		status = -1;
-	}
+		myExit(shell_config, pipeline);
 	exit(1);
-	return (status);
 }
 
 static int	read_from_source(t_command *command)
@@ -79,10 +76,9 @@ static void handle_redirection(t_command *command)
 	if (command->redirection_out && command->redirection_out[0])
 	{
 		if (!ft_strncmp(command->redirection_out[0], ">>", 2))
-			redir_file = open(command->redirection_out[1], O_WRONLY | O_CREAT);
+			redir_file = open(command->redirection_out[1], O_WRONLY | O_CREAT | O_APPEND);
 		else
-			redir_file = open(command->redirection_out[1], 
-				O_WRONLY | O_CREAT | O_TRUNC);
+			redir_file = open(command->redirection_out[1], O_WRONLY | O_CREAT | O_TRUNC);
 		dup2(redir_file, 1);
 		close(redir_file);
 	}
@@ -116,7 +112,7 @@ static void	handle_pipe(t_command *command, t_config *shell_config)
 		close(fd[1]);
 		come_from_pipe = 1;
 	}
-	else
+	else if (command->has_pipe == 0)
 	{
 		dup2(shell_config->stdout, 1);
 		dup2(fd[0], 0);
@@ -129,7 +125,7 @@ void	exec(t_pipeline **pipeline, t_config **shell_config)
 	int			child_pid;
 	t_command 	*command;
 
-	command = *pipeline;
+	command = (*pipeline)->command_list;
 	while(command)
 	{
 		if (command->has_pipe >= 0)
@@ -145,7 +141,7 @@ void	exec(t_pipeline **pipeline, t_config **shell_config)
 		}
 		else
 		{
-			waitpid(child_pid, &(*shell_config)->last_exit_status, 0);
+			waitpid(child_pid, NULL, 0);
 			dup2((*shell_config)->stdin, 0);
 			dup2((*shell_config)->stdout, 1);
 		}

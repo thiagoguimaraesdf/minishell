@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 15:00:56 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/21 22:49:33 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **env)
 		pipeline->command_list = parser(&pipeline->token_list, shell_config->builtin_list, shell_config->path);
 		// shell_config->current_pipe = &pipeline;
 		exec(&pipeline, &shell_config);
-		free_pipeline(&pipeline);
+		// free_pipeline(&pipeline);
 	}
 	return (0);
 }
@@ -74,12 +74,11 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	(*shell_config) = (t_config *)malloc(sizeof(t_config));
 	if (!(*shell_config))
 		return (-1);
-	(*shell_config)->current_pipe = (t_pipeline **)malloc(sizeof(t_pipeline *));
 	(*shell_config)->builtin_list = bultinInit();
 	(*shell_config)->env = envInit(env);
 	(*shell_config)->path = find_path(env);
-	if (!(*shell_config)->current_pipe || !(*shell_config)->builtin_list ||
-		(*shell_config)->env || (*shell_config)->path)
+	if (!(*shell_config)->builtin_list || (*shell_config)->env ||
+		(*shell_config)->path)
 		return (-1);
 	(*shell_config)->stdin = dup(1);
 	(*shell_config)->stdout = dup(0);
