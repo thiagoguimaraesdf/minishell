@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 11:35:41 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 12:03:51 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **env)
 		buffer = readline("minishell>");
 		if (buffer && buffer[0])
 			add_history(buffer);
-		pipeline->token_list = tokenizer(buffer, shell_config->env);
+		pipeline->token_list = tokenizer(buffer, shell_config->env, shell_config->last_exit_status);
 		free(buffer);
 		buffer = NULL;
 		pipeline->command_list = parser(&pipeline, shell_config->builtin_list, shell_config->path);

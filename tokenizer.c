@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 15:32:12 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 14:48:59 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 12:04:39 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	endVarPos(char *str)
 	return (i - 1);
 }
 
-const char	*getEnvContent(char *name, t_env *env)
+char	*getEnvContent(char *name, t_env *env)
 {
 	t_env	*temp_env;	
 
@@ -84,33 +84,41 @@ const char	*getEnvContent(char *name, t_env *env)
 	while (temp_env)
 	{
 		if (!ft_strncmp(temp_env->content[0], name, ft_strlen(name)))
-			return ((const char *)temp_env->content[1]);		
+			return (temp_env->content[1]);		
 		temp_env = temp_env->next;	
 	}
-	return ((const char *)NULL);
+	return (NULL);
 }
 
-static int	expandVar(char *str, t_token **token, t_env *env)
+static int	expandVar(char *str, t_token **token, t_env *env, int exit_status)
 {
 	char		*buffer;
-	const char	*content;
-	char 		*temp;
-	int			is_env;
+	char		*content;
+	int 		size;
 	
 	buffer = ft_substr(str, 1, endVarPos(str));
 	if (!buffer)
 		return (-1);
-	is_env = isEnv(env, buffer);
-	if (is_env)
+	size = -1;
+	if (*buffer == '?')
+	{
+		content = ft_itoa(exit_status);
+		ft_strlcat((*token)->content, content, ft_strlen(content) + 1);
+		free(content);
+		size = 2;
+	}
+	else if (isEnv(env, buffer))
 	{
 		content = getEnvContent(buffer, env);
 		ft_strlcat((*token)->content, content, ft_strlen(content) + 1);
-		return (ft_strlen(buffer) + 1);
+		free(content);
+		size = ft_strlen(buffer) + 1;
 	}
-	return (-1);
+	free(buffer);
+	return (size);
 }
 
-int		readString(char *str, t_token **token, t_env *env)
+int		readString(char *str, t_token **token, t_env *env, int exit_status)
 {
 	int		i;
 	int		size;
@@ -121,7 +129,7 @@ int		readString(char *str, t_token **token, t_env *env)
 	{
 		if (str[i]  == '$' && str[0] == '\"')
 		{	
-			i+=expandVar(str + i, token, env);
+			i+=expandVar(str + i, token, env, exit_status);
 			continue ;
 		}
 		(*token)->content[i - 1] = str[i];
@@ -183,7 +191,7 @@ size_t	readPipe(t_token **token)
 		return (1);
 }
 
-size_t	tokenRouter(char *buffer, t_token **token, t_env *env)
+size_t	tokenRouter(char *buffer, t_token **token, t_env *env, int exit_status)
 {
 	size_t	size;
 	int		type;
@@ -193,9 +201,9 @@ size_t	tokenRouter(char *buffer, t_token **token, t_env *env)
 	if (type == IS_REDIR)
 		size = readRedir(buffer, token);
 	else if (type == IS_QUOTE | type == IS_SINGLE_QUOTE)
-		size = readString(buffer, token, env);
+		size = readString(buffer, token, env, exit_status);
 	else if (type == IS_VAR)
-		size = expandVar(buffer, token, env);
+		size = expandVar(buffer, token, env, exit_status);
 	else if (type == IS_PIPE)
 		size = readPipe(token);
 	else if (type == IS_COMMON)
@@ -203,7 +211,7 @@ size_t	tokenRouter(char *buffer, t_token **token, t_env *env)
 	return (size);	
 }
 
-t_token		*tokenizer(char *buffer, t_env *env)
+t_token		*tokenizer(char *buffer, t_env *env, int exit_status)
 {
 	int			type;
 	t_token		*token_list;
@@ -219,7 +227,7 @@ t_token		*tokenizer(char *buffer, t_env *env)
 		if (type == IS_UNSPECIFIED)
 			break;
 		token->type = type;
-		buffer = buffer + tokenRouter(buffer, &token, env);
+		buffer = buffer + tokenRouter(buffer, &token, env, exit_status);
 		if (buffer && *buffer)
 			token->next = initToken(IS_INVALID, NULL);
 		if (token->next)

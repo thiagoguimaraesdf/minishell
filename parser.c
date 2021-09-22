@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:32:57 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 10:59:01 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 12:07:10 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ t_command	*init_command(t_token **token, char **builtin_list, char **path)
 			command->builtin = 1;
 	else
 	{
+		// nao esta veficcando corretamente se é exec. apenas se arquivo existe
 		command->exec_path = NULL;
 		command->exec_path = findExecutable((*token)->content, myPwd(), path);
 		if (!command->exec_path)

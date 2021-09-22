@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 11:16:12 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 11:49:59 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ void		free_env_list(t_env **env_list);
 
 // tokenizer
 
-t_token		*tokenizer(char *buffer, t_env *env);
+t_token		*tokenizer(char *buffer, t_env *env, int exit_status);
 
 #endif

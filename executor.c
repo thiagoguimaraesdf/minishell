@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 10:59:19 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 11:42:37 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	exec(t_pipeline **pipeline, t_config **shell_config)
 		}
 		else
 		{
-			waitpid(child_pid, NULL, 0);
+			waitpid(child_pid, &(*shell_config)->last_exit_status, 0);
 			dup2((*shell_config)->stdin, 0);
 			dup2((*shell_config)->stdout, 1);
 		}
