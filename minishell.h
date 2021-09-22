@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 22:28:16 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 11:16:12 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_command {
 typedef struct s_pipeline {
 	t_token				*token_list;
 	t_command			*command_list;
+	size_t 				total_commands;
 }	t_pipeline;
 
 /*
@@ -81,9 +82,9 @@ typedef struct s_config {
 }	t_config;
 
 void		handle_signals(void);
-t_command	*parser(t_token **token_list, char **builtin_list, char **path);
+t_command	*parser(t_pipeline **pipeline, char **builtin_list, char **path);
 int			commandChecker(t_command *command);
-void	exec(t_pipeline **pipeline, t_config **shell_config);
+void		exec(t_pipeline **pipeline, t_config **shell_config);
 
 // builtin
 

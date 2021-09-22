@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 10:37:53 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 10:59:19 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static void	handle_pipe(t_command *command, t_config *shell_config)
 		close(fd[1]);
 		come_from_pipe = 1;
 	}
-	else if (command->has_pipe == 0)
+	else
 	{
 		dup2(shell_config->stdout, 1);
 		dup2(fd[0], 0);
@@ -128,7 +128,7 @@ void	exec(t_pipeline **pipeline, t_config **shell_config)
 	command = (*pipeline)->command_list;
 	while(command)
 	{
-		if (command->has_pipe >= 0)
+		if ((*pipeline)->total_commands > 1)
 			handle_pipe(command, *shell_config);
 		child_pid = fork();
 		if (child_pid == 0)

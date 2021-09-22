@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:32:57 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 14:29:46 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/22 10:59:01 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ static void 	read_tokens()
 	
 }
 
-t_command	*parser(t_token **token_list, char **builtin_list, char **path)
+t_command	*parser(t_pipeline **pipeline, char **builtin_list, char **path)
 {
 	int			total_args;
 	t_token		*token;
@@ -144,15 +144,18 @@ t_command	*parser(t_token **token_list, char **builtin_list, char **path)
 	int			i;
 	
 	// init command realiza verificação se comando é builtin ou executável
-	token = (*token_list);
+	token = (*pipeline)->token_list;
+	(*pipeline)->total_commands = 1;
 	command_list = init_command(&token, builtin_list, path);
 	command = command_list;
 	if (!command_list)
 		return ((t_command *)NULL);
 	while (token)
 	{
+		
 		if (token && token->type == IS_PIPE)
 		{
+			(*pipeline)->total_commands = (*pipeline)->total_commands + 1;
 			token = token -> next;
 			// syntax error
 			if (!token)
