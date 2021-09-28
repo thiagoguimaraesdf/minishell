@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 14:46:44 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/28 07:26:21 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 	bultins em um shell eh limitada, preferi criar uma array,
 	pois a otimizacao de espaco tende a ser limitada.
 */
-char	**bultinInit()
+char	**bultinInit(t_free	*error_list)
 {
 	char		*builtins_string;
 	char		**builtin_list;
@@ -31,6 +31,7 @@ char	**bultinInit()
 		return ((char **)NULL);
 	if (builtins_string)
 		free(builtins_string);
+	error_list->bultin = true;
 	return (builtin_list);
 }
 
@@ -354,8 +355,29 @@ void	free_config(t_config **shell_config)
 	(*shell_config) = NULL;
 }
 
+/*
+	static void	exit_minishell(t_config **shell_config)
+	
+	A função exit_minishell() é responsável por verificar
+	quais partes do program foram alocadas anteriormente
+	e chamar os metodos que realizarão o free.
+*/
+void	exit_minishell(t_config *shell_config)
+{
+	if (shell_config->free_list->env == true)
+		free_env_list(&shell_config->env);
+	if (shell_config->free_list->bultin == true)
+	{
+		ft_free_str_array(shell_config->builtin_list);
+		free(shell_config->builtin_list);
+	}
+	free(shell_config->free_list);
+	free(shell_config);
+}
+
 void	myExit(t_config **shell_config, t_pipeline **pipeline)
 {
+	ft_printf("exit\n");
 	if (*pipeline)
 		free_pipeline(pipeline);
 	if (*shell_config)

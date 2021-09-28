@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 15:15:13 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/28 07:29:48 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	main(int argc, char **argv, char **env)
 		exec(&pipeline, &shell_config);
 		// free_pipeline(&pipeline);
 	}
+	exit_minishell(shell_config);
 	return (0);
 }
 
@@ -73,8 +74,9 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	(*shell_config) = (t_config *)malloc(sizeof(t_config));
 	if (!(*shell_config))
 		return (-1);
-	(*shell_config)->builtin_list = bultinInit();
-	(*shell_config)->env = envInit(env);
+	(*shell_config)->free_list = ft_calloc(sizeof(t_free *), 1);
+	(*shell_config)->builtin_list = bultinInit((*shell_config)->free_list);
+	(*shell_config)->env = envInit(env, (*shell_config)->free_list);
 	(*shell_config)->path = find_path(env);
 	if (!(*shell_config)->builtin_list || !(*shell_config)->env ||
 		!(*shell_config)->path)

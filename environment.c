@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:40:48 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 14:50:18 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/09/28 07:16:09 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ size_t 		env_size(t_env	*env_list)
 	return (size);
 }
 
-t_env			*envInit(char **env)
+t_env			*envInit(char **env, t_free	*error_list)
 {
 	t_env	*env_list;
 	t_env	*next;
@@ -101,6 +101,7 @@ t_env			*envInit(char **env)
 		next = next->next;
 		env++;
 	}
+	error_list->env = true;
 	return (env_list);
 }
 
@@ -134,17 +135,33 @@ char	**t_env_to_array(t_env *env_list)
 */
 void	free_env_list(t_env **env_list)
 {
-	t_env	*temp_env;
+	// t_env	*temp_env;
 
-	temp_env = *env_list;
-	while(temp_env)
+	// temp_env = *env_list;
+	// while(temp_env)
+	// {
+	// 	if ((*env_list)->content)
+	// 		free((*env_list)->content);
+	// 	(*env_list)->content = NULL;
+	// 	temp_env = (*env_list);
+	// 	(*env_list) = temp_env->next;
+	// 	free(temp_env);
+	// 	temp_env = NULL;
+	// }
+
+	t_env	*aux;
+	t_env	*temp;
+
+	if (env_list == NULL)
+		return ;
+	aux = *env_list;
+	while (aux != NULL)
 	{
-		if ((*env_list)->content)
-			free((*env_list)->content);
-		(*env_list)->content = NULL;
-		temp_env = (*env_list);
-		(*env_list) = temp_env->next;
-		free(temp_env);
-		temp_env = NULL;
+		temp = aux->next;
+		free(aux->content);
+		aux->content = NULL;
+		aux = NULL;
+		aux = temp;
 	}
+	*env_list = NULL;
 }
