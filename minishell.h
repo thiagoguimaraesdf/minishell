@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/28 07:20:06 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/09/29 06:41:25 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_env {
 
 typedef struct s_free {
 	int					env;
+	int					path;
 	int					bultin;
 	int					pipeline;
 	int					token_list;

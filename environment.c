@@ -6,11 +6,11 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:40:48 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/28 07:16:09 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/09/29 07:22:44 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 static t_env	*newEnv(char *env)
 {
@@ -135,20 +135,6 @@ char	**t_env_to_array(t_env *env_list)
 */
 void	free_env_list(t_env **env_list)
 {
-	// t_env	*temp_env;
-
-	// temp_env = *env_list;
-	// while(temp_env)
-	// {
-	// 	if ((*env_list)->content)
-	// 		free((*env_list)->content);
-	// 	(*env_list)->content = NULL;
-	// 	temp_env = (*env_list);
-	// 	(*env_list) = temp_env->next;
-	// 	free(temp_env);
-	// 	temp_env = NULL;
-	// }
-
 	t_env	*aux;
 	t_env	*temp;
 
@@ -158,6 +144,7 @@ void	free_env_list(t_env **env_list)
 	while (aux != NULL)
 	{
 		temp = aux->next;
+		ft_free_str_array(aux->content);
 		free(aux->content);
 		aux->content = NULL;
 		aux = NULL;

@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/28 07:26:21 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/09/29 07:17:03 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -371,6 +371,8 @@ void	exit_minishell(t_config *shell_config)
 		ft_free_str_array(shell_config->builtin_list);
 		free(shell_config->builtin_list);
 	}
+	if (shell_config->free_list->path == true)
+		ft_free_str_array(shell_config->path);
 	free(shell_config->free_list);
 	free(shell_config);
 }
