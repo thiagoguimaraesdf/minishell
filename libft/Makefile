@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+         #
+#    By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/18 17:30:09 by tguimara          #+#    #+#              #
-#    Updated: 2021/09/21 14:44:22 by tguimara         ###   ########.fr        #
+#    Updated: 2021/10/04 06:58:39 by lmartins         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ $(NAME): $(OBJECTS) $(BONUS_OBJ) $(PRINTF_OBJ) $(GNL_OBJ)
 	@ranlib $(NAME)
 
 %.o:%.c
-	@gcc -Wall -Wextra -Werror -c $< -o $@ -I./
+	@gcc -g -Wall -Wextra -Werror -c $< -o $@ -I./
 
 clean:
 	@rm -f $(OBJECTS) $(BONUS_OBJ) $(PRINTF_OBJ) $(GNL_OBJ)

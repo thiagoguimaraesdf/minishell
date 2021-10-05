@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_str_array.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 14:43:08 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/21 22:24:23 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/04 07:00:34 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void 	ft_free_str_array(char **str_array)
 		return ;
 	while (str_array && *str_array)
 	{
-		printf("%s\n", *str_array);
 		free(*str_array);
 		*str_array = NULL;
 		str_array++;

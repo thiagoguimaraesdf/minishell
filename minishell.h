@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 15:15:39 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/04 07:12:29 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define IS_REDIR_IN_2		23
 # define IS_REDIR_OUT_2		24
 
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -72,6 +73,15 @@ typedef struct s_env {
 	struct s_env		*next;
 }	t_env;
 
+typedef struct s_free {
+	int					env;
+	int					path;
+	int					bultin;
+	int					pipeline;
+	int					token_list;
+	int					command_list;
+}	t_free;
+
 typedef struct s_config {
 	char				**builtin_list;
 	char 				**path;
@@ -79,6 +89,7 @@ typedef struct s_config {
 	int					stdin;
 	int					stdout;
 	int					last_exit_status;
+	t_free				*free_list;
 }	t_config;
 
 t_config	*shell_config;
@@ -90,7 +101,7 @@ void		exec(t_pipeline **pipeline, t_config **shell_config);
 
 // builtin
 
-char 		**bultinInit();
+char 		**bultinInit(t_free	*error_list);
 int			isBuiltin(char *command, char **builtinList);
 void		callBuiltin(t_command *command, t_env **env);
 char		*myPwd(void);
@@ -101,11 +112,13 @@ void		myCd(int total_args, char **args);
 void		myEcho(char **args);
 void		myExit(t_config **shell_config, t_pipeline **pipeline);
 
+void	exit_minishell(t_config *shell_config);
+
 // exit
 void	free_pipeline(t_pipeline **pipeline);
 // env
 
-t_env		*envInit(char **env);
+t_env		*envInit(char **env, t_free *error_list);
 void		envDelete(t_env **env, t_env **env_before);
 t_env		*getLastEnv(t_env *env);
 void 		envInclude(t_env **env_before, char *env);

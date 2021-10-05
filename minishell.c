@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 15:15:13 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/04 07:10:25 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "minishell.h"
 
 static int	init_minishell(t_config	**shell_config, char **env);
-static char	**find_path(char **env);
+static char	**find_path(char **env, t_free	*error_list);
 
 /*
 	MINISHELL
@@ -42,22 +42,23 @@ int	main(int argc, char **argv, char **env)
 	handle_signals();
 	if (!init_minishell(&shell_config, env))
 		exit(-1);
-	while (1)
-	{
-		pipeline = (t_pipeline *)malloc(sizeof(t_pipeline));
-		if (!pipeline)
-			exit(-1);
-		buffer = readline("minishell>");
-		if (buffer && buffer[0])
-			add_history(buffer);
-		pipeline->token_list = tokenizer(buffer, shell_config->env, shell_config->last_exit_status);
-		free(buffer);
-		buffer = NULL;
-		pipeline->command_list = parser(&pipeline, shell_config->builtin_list, shell_config->path);
-		// shell_config->current_pipe = &pipeline;
-		exec(&pipeline, &shell_config);
-		// free_pipeline(&pipeline);
-	}
+	//while (1)
+	//{
+		// pipeline = (t_pipeline *)malloc(sizeof(t_pipeline));
+		// if (!pipeline)
+		// 	exit(-1);
+		// buffer = readline("minishell>");
+		// if (buffer && buffer[0])
+		// 	add_history(buffer);
+		// pipeline->token_list = tokenizer(buffer, shell_config->env, shell_config->last_exit_status);
+		// free(buffer);
+		// buffer = NULL;
+		// pipeline->command_list = parser(&pipeline, shell_config->builtin_list, shell_config->path);
+		// // shell_config->current_pipe = &pipeline;
+		// exec(&pipeline, &shell_config);
+		// // free_pipeline(&pipeline);
+	//}
+	exit_minishell(shell_config);
 	return (0);
 }
 
@@ -73,12 +74,13 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	(*shell_config) = (t_config *)malloc(sizeof(t_config));
 	if (!(*shell_config))
 		return (-1);
-	(*shell_config)->builtin_list = bultinInit();
-	(*shell_config)->env = envInit(env);
-	(*shell_config)->path = find_path(env);
-	if (!(*shell_config)->builtin_list || !(*shell_config)->env ||
-		!(*shell_config)->path)
-		return (-1);
+	(*shell_config)->free_list = ft_calloc(sizeof(t_free *), 1);
+	(*shell_config)->builtin_list = bultinInit((*shell_config)->free_list);
+	(*shell_config)->env = envInit(env, (*shell_config)->free_list);
+	//(*shell_config)->path = find_path(env, (*shell_config)->free_list);
+	// if (!(*shell_config)->builtin_list || !(*shell_config)->env ||
+	// 	!(*shell_config)->path)
+	// 	return (-1);
 	(*shell_config)->stdin = dup(1);
 	(*shell_config)->stdout = dup(0);
 	(*shell_config)->last_exit_status = -1;
@@ -93,20 +95,26 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	Esse alocação é realizada para facilitar a busca pelos paths
 	declarados futuramente.
 */
-static char	**find_path(char **env)
+static char	**find_path(char **env, t_free	*error_list)
 {
 	char **path;
+	char **temp;
 	
-	path = NULL;
 	// fazer o trim antes de mandar para loop
 	// verificar antes qual a primiera var do env
 	// *env = ft_strchr(*env, '=');
 	while (*env)
 	{
 		if (!ft_strncmp(*env, "PATH", 4))
-			path = ft_split(*env,':');
+		{
+			temp = ft_split(*env,':');
+			break ;
+		}
 		env++;
 	}
-	*path = ft_strtrim(*path, "PATH=");
-	return (path);	
+	*path = ft_strtrim(*temp, "PATH=");
+	ft_free_str_array(temp);
+	free(temp);
+	error_list->path = true;
+	return (NULL);
 }
