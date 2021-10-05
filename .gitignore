@@ -1,3 +1,5 @@
 *.txt
 *.o
 .vscode
+libft/src/*.o
+libft/ft_printf/src/*.o

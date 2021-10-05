@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/29 07:14:34 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/04 07:10:25 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	(*shell_config)->free_list = ft_calloc(sizeof(t_free *), 1);
 	(*shell_config)->builtin_list = bultinInit((*shell_config)->free_list);
 	(*shell_config)->env = envInit(env, (*shell_config)->free_list);
-	(*shell_config)->path = find_path(env, (*shell_config)->free_list);
-	if (!(*shell_config)->builtin_list || !(*shell_config)->env ||
-		!(*shell_config)->path)
-		return (-1);
+	//(*shell_config)->path = find_path(env, (*shell_config)->free_list);
+	// if (!(*shell_config)->builtin_list || !(*shell_config)->env ||
+	// 	!(*shell_config)->path)
+	// 	return (-1);
 	(*shell_config)->stdin = dup(1);
 	(*shell_config)->stdout = dup(0);
 	(*shell_config)->last_exit_status = -1;

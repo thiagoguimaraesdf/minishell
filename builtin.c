@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/29 07:17:03 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/04 07:15:34 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,7 +365,10 @@ void	free_config(t_config **shell_config)
 void	exit_minishell(t_config *shell_config)
 {
 	if (shell_config->free_list->env == true)
+	{
 		free_env_list(&shell_config->env);
+		free(shell_config->env);		
+	}
 	if (shell_config->free_list->bultin == true)
 	{
 		ft_free_str_array(shell_config->builtin_list);
@@ -379,7 +382,6 @@ void	exit_minishell(t_config *shell_config)
 
 void	myExit(t_config **shell_config, t_pipeline **pipeline)
 {
-	ft_printf("exit\n");
 	if (*pipeline)
 		free_pipeline(pipeline);
 	if (*shell_config)

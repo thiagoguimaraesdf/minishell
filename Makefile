@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/04 06:56:48 by lmartins          #+#    #+#              #
+#    Updated: 2021/10/04 06:58:21 by lmartins         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = minishell
 
 SRC = minishell.c signals.c parser.c executor.c builtin.c \
@@ -21,11 +33,14 @@ $(NAME): $(OBJ)
 	$(CC) -g -c $< -o $@ -I./
 clean:
 	@rm -f $(OBJ)
+	$(MAKE) -C ./libft clean
 
 fclean: clean
 	@rm -f $(NAME)
+	$(MAKE) -C ./libft fclean
 
 re: fclean all
+	$(MAKE) -C ./libft re
 
 run: all
 	./$(NAME)
