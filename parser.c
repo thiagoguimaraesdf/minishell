@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:32:57 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 12:07:10 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/07 06:25:06 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	parse_redirections(t_token **token, t_command **command)
 			if ((*token)->type != IS_COMMON)
 				break ;
 			(*command)->redirection_in[1] = ft_strdup((*token)->content);
-			(*token) = (*token)->next;		
+			(*token) = (*token)->next;
 		}
 		else
 		{
@@ -37,7 +37,7 @@ void	parse_redirections(t_token **token, t_command **command)
 			if ((*token)->type != IS_COMMON)
 				break ;
 			(*command)->redirection_out[1] = ft_strdup((*token)->content);
-			(*token) = (*token)->next;					
+			(*token) = (*token)->next;
 		}
 	}
 }
@@ -45,7 +45,7 @@ void	parse_redirections(t_token **token, t_command **command)
 static int	parse_args(t_token **token, t_command **command)
 {
 	int		total_args;
-	
+
 	total_args = 1;
 	while ((*token) && (*token)->type != IS_PIPE && (*token)->type < IS_REDIR)
 	{
@@ -56,19 +56,18 @@ static int	parse_args(t_token **token, t_command **command)
 	return (total_args - 1);
 }
 
-
 /*
 	TODO:
 	- Necessário verificar se o arquivo é diretorio. Caso seja, retornar no formato:
 		bash: /home/tguimara/42sp/projects/minishell: Is a directory
 */
-static char	*findExecutable(char *command, char *cur_dir, char **path)
+static char	*find_executable(char *command, char *cur_dir, char **path)
 {
 	char		*new_command;
 	char		*full_path;
-	struct stat stat_buf;
+	struct stat	stat_buf;
 	int			i;
-	
+
 	i = 0;
 	new_command = ft_strjoin("/", command);
 	if (!ft_strncmp(command, "./", 2) || !ft_strncmp(command, "/", 1))
@@ -88,7 +87,7 @@ static char	*findExecutable(char *command, char *cur_dir, char **path)
 			full_path = ft_strjoin(path[i], new_command);
 			// printf("full path:%s\n", full_path);
 			// printf("path stat%d\n\n", stat(full_path, stat_buf));
-			if(stat(full_path, &stat_buf) >= 0)
+			if (stat(full_path, &stat_buf) >= 0)
 				return (full_path);
 			i++;
 		}
@@ -99,27 +98,27 @@ static char	*findExecutable(char *command, char *cur_dir, char **path)
 t_command	*init_command(t_token **token, char **builtin_list, char **path)
 {
 	t_command	*command;
-	
+
 	command = (t_command *)malloc(sizeof(t_command));
 	if (!command)
 		return (NULL);
 	command->exec_path = NULL;
-	if (isBuiltin((*token)->content, builtin_list))
-			command->builtin = 1;
+	if (is_builtin((*token)->content, builtin_list))
+		command->builtin = 1;
 	else
 	{
 		// nao esta veficcando corretamente se é exec. apenas se arquivo existe
 		command->exec_path = NULL;
-		command->exec_path = findExecutable((*token)->content, myPwd(), path);
+		command->exec_path = find_executable((*token)->content, my_pwd(), path);
 		if (!command->exec_path)
 		{
 			ft_printf("%s: command not found\n", (*token)->content);
 			free(command);
-			return ((t_command *)NULL);
+			return ((t_command *) NULL);
 		}
 		command->builtin = 0;
 	}
-	command->command = ft_strdup((const char*)(*token)->content);
+	command->command = ft_strdup((const char *)(*token)->content);
 	command->args = (char **)ft_calloc(sizeof(char *), 256);
 	command->args[0] = ft_strdup(command->command);
 	command->total_args = -1;
@@ -131,9 +130,9 @@ t_command	*init_command(t_token **token, char **builtin_list, char **path)
 	return (command);
 }
 
-static void 	read_tokens()
+static void	read_tokens(void)
 {
-	
+
 }
 
 t_command	*parser(t_pipeline **pipeline, char **builtin_list, char **path)
@@ -143,17 +142,16 @@ t_command	*parser(t_pipeline **pipeline, char **builtin_list, char **path)
 	t_command	*command_list;
 	t_command	*command;
 	int			i;
-	
+
 	// init command realiza verificação se comando é builtin ou executável
 	token = (*pipeline)->token_list;
 	(*pipeline)->total_commands = 1;
 	command_list = init_command(&token, builtin_list, path);
 	command = command_list;
 	if (!command_list)
-		return ((t_command *)NULL);
+		return ((t_command *) NULL);
 	while (token)
 	{
-		
 		if (token && token->type == IS_PIPE)
 		{
 			(*pipeline)->total_commands = (*pipeline)->total_commands + 1;
@@ -166,13 +164,13 @@ t_command	*parser(t_pipeline **pipeline, char **builtin_list, char **path)
 				command->has_pipe = 1;
 				command->next = init_command(&token, builtin_list, path);
 				if (!command->next)
-					break;
+					break ;
 				command = command->next;
 			}	
 			else
 				break ;
 		}
-		if(!token)
+		if (!token)
 			break ;
 		command->total_args = parse_args(&token, &command);
 		if (token && token->type >= IS_REDIR)

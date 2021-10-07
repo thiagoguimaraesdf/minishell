@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_signals.c                                   :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:11:29 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/17 10:28:13 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/07 06:26:20 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ static void	handle_interrupt(int sig_num)
 	return ;
 }
 
-void		handle_signals(void)
+void	handle_signals(void)
 {
 	// handle "Crtl+C" to ignore following line and jump to next waiting prompt
 	signal(SIGINT, handle_interrupt);
-    // ignore "Crtl+Z"
+	// ignore "Crtl+Z"
 	// signal(SIGTSTP, SIG_IGN);
 	// ignore "Ctrl+\"
-    signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	return ;
 }

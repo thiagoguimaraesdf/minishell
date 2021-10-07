@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 15:32:12 by tguimara          #+#    #+#             */
-/*   Updated: 2021/09/22 13:46:20 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/07 06:37:48 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		tokenType(char c)
+int	token_type(char c)
 {
 	if (c == '<' | c == '>')
 		return (IS_REDIR);
@@ -32,10 +32,10 @@ int		tokenType(char c)
 		return (IS_COMMON);
 }
 
-t_token	*initToken(int type, char *content)
+t_token	*init_token(int type, char *content)
 {
-	t_token *token;
-	
+	t_token	*token;
+
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
@@ -48,7 +48,7 @@ t_token	*initToken(int type, char *content)
 	return (token);
 }
 
-static int 	isEnv(t_env *env, char *str)
+static int	is_env(t_env *env, char *str)
 {
 	while (env)
 	{
@@ -59,10 +59,9 @@ static int 	isEnv(t_env *env, char *str)
 	return (0);
 }
 
-
-static int	endVarPos(char *str)
+static int	end_var_pos(char *str)
 {
-	int 	i;
+	int	i;
 
 	i = 1;
 	while (str && str[i])
@@ -76,7 +75,7 @@ static int	endVarPos(char *str)
 	return (i - 1);
 }
 
-char	*getEnvContent(char *name, t_env *env)
+char	*get_env_content(char *name, t_env *env)
 {
 	t_env	*temp_env;	
 
@@ -84,20 +83,20 @@ char	*getEnvContent(char *name, t_env *env)
 	while (temp_env)
 	{
 		if (!ft_strncmp(temp_env->content[0], name, ft_strlen(name)))
-			return (temp_env->content[1]);		
-		temp_env = temp_env->next;	
+			return (temp_env->content[1]);
+		temp_env = temp_env->next;
 	}
 	return (NULL);
 }
 
-static int	expandVar(char *str, t_token **token, t_env *env, int exit_status)
+static int	expand_var(char *str, t_token **token, t_env *env, int exit_status)
 {
 	char		*buffer;
 	char		*content;
 	int			dest_size;
-	int 		size;
-	
-	buffer = ft_substr(str, 1, endVarPos(str));
+	int			size;
+
+	buffer = ft_substr(str, 1, end_var_pos(str));
 	if (!buffer)
 		return (-1);
 	size = -1;
@@ -105,32 +104,34 @@ static int	expandVar(char *str, t_token **token, t_env *env, int exit_status)
 	if (*buffer == '?')
 	{
 		content = ft_itoa(exit_status);
-		ft_strlcat((*token)->content, content, ft_strlen(content) + dest_size + 1);
+		ft_strlcat((*token)->content, content,
+			ft_strlen(content) + dest_size + 1);
 		free(content);
 		size = 2;
 	}
-	else if (isEnv(env, buffer))
+	else if (is_env(env, buffer))
 	{
-		content = getEnvContent(buffer, env);
-		ft_strlcat((*token)->content, content, ft_strlen(content) + dest_size + 1);
+		content = get_env_content(buffer, env);
+		ft_strlcat((*token)->content, content,
+			ft_strlen(content) + dest_size + 1);
 		size = ft_strlen(buffer) + 1;
 	}
 	free(buffer);
 	return (size);
 }
 
-int		readString(char *str, t_token **token, t_env *env, int exit_status)
+int	read_string(char *str, t_token **token, t_env *env, int exit_status)
 {
 	int		i;
 	int		size;
-	
+
 	size = 0;
 	i = 1;
 	while (str[i] != str[0])
 	{
-		if (str[i]  == '$' && str[0] == '\"')
+		if (str[i] == '$' && str[0] == '\"')
 		{	
-			i+=expandVar(str + i, token, env, exit_status);
+			i += expand_var(str + i, token, env, exit_status);
 			continue ;
 		}
 		(*token)->content[i - 1] = str[i];
@@ -139,7 +140,7 @@ int		readString(char *str, t_token **token, t_env *env, int exit_status)
 	return (i + 1);
 }
 
-static int	readRedir(char *str, t_token **token)
+static int	read_redir(char *str, t_token **token)
 {
 	if (*str == '<')
 	{
@@ -166,71 +167,71 @@ static int	readRedir(char *str, t_token **token)
 	return (1);
 }
 
-static int	readToken(char *str, t_token **token)
+static int	read_token(char *str, t_token **token)
 {
 	int	i;
-	int type;
-		
+	int	type;
+
 	i = 0;
-	type = tokenType(str[i]);
+	type = token_type(str[i]);
 	(*token)->type = type;
-	while(str && str[i])
+	while (str && str[i])
 	{
 		if (type != IS_COMMON)
 			return (i);
 		(*token)->content[i] = str[i];
 		i++;
-		type = tokenType(str[i]);
+		type = token_type(str[i]);
 	}
 	return (i);
 }
 
-size_t	readPipe(t_token **token)
+size_t	read_pipe(t_token **token)
 {
-		ft_strlcat((*token)->content, "|", 2);
-		(*token)->type = IS_PIPE;
-		return (1);
+	ft_strlcat((*token)->content, "|", 2);
+	(*token)->type = IS_PIPE;
+	return (1);
 }
 
-size_t	tokenRouter(char *buffer, t_token **token, t_env *env, int exit_status)
+size_t	token_router(char *buffer, t_token **token, t_env *env, int exit_status)
 {
 	size_t	size;
 	int		type;
 
-	type = tokenType(*buffer);
+	type = token_type(*buffer);
 	size = -1;
 	if (type == IS_REDIR)
-		size = readRedir(buffer, token);
+		size = read_redir(buffer, token);
 	else if (type == IS_QUOTE | type == IS_SINGLE_QUOTE)
-		size = readString(buffer, token, env, exit_status);
+		size = read_string(buffer, token, env, exit_status);
 	else if (type == IS_VAR)
-		size = expandVar(buffer, token, env, exit_status);
+		size = expand_var(buffer, token, env, exit_status);
 	else if (type == IS_PIPE)
-		size = readPipe(token);
+		size = read_pipe(token);
 	else if (type == IS_COMMON)
-		size = readToken(buffer, token);
-	return (size);	
+		size = read_token(buffer, token);
+	return (size);
 }
 
-t_token		*tokenizer(char *buffer, t_env *env, int exit_status)
+t_token	*tokenizer(char *buffer, t_env *env, int exit_status)
 {
 	int			type;
 	t_token		*token_list;
 	t_token		*token;
-	
-	token_list = initToken(IS_INVALID, NULL);
+
+	token_list = init_token(IS_INVALID, NULL);
 	token = token_list;
 	while (buffer && *buffer)
 	{
-		type = tokenType(*buffer);
+		type = token_type(*buffer);
 		if (type == IS_SPACE && buffer++)
-			continue;
+			continue ;
 		if (type == IS_UNSPECIFIED)
-			break;
+			break ;
 		token->type = type;
-		buffer = buffer + tokenRouter(buffer, &token, env, exit_status);
+		buffer = buffer + token_router(buffer, &token, env, exit_status);
 		if (buffer && *buffer)
-			token->next = initToken(IS_INVALID, NULL);
+			token->next = init_token(IS_INVALID, NULL);
 		if (token->next)
 			token = token->next;
 	}
