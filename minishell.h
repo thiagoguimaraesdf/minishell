@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/04 07:12:29 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/07 06:18:17 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_token
 
 typedef struct s_command {
 	char				*command;
-	int 				builtin;
+	int					builtin;
 	char				*exec_path;
 	char				**args;
 	int					total_args;
@@ -62,11 +62,12 @@ typedef struct s_command {
 typedef struct s_pipeline {
 	t_token				*token_list;
 	t_command			*command_list;
-	size_t 				total_commands;
+	size_t				total_commands;
 }	t_pipeline;
 
 /*
-	env path e bultinlist poderiam ser tornar hash table para facilitar o encontro de uma variável
+	env path e bultinlist poderiam ser tornar hash table
+	para facilitar o encontro de uma variável
 */
 typedef struct s_env {
 	char				**content;
@@ -84,7 +85,7 @@ typedef struct s_free {
 
 typedef struct s_config {
 	char				**builtin_list;
-	char 				**path;
+	char				**path;
 	t_env				*env;
 	int					stdin;
 	int					stdout;
@@ -92,7 +93,7 @@ typedef struct s_config {
 	t_free				*free_list;
 }	t_config;
 
-t_config	*shell_config;
+t_config	*g_shell_config;
 
 void		handle_signals(void);
 t_command	*parser(t_pipeline **pipeline, char **builtin_list, char **path);
@@ -101,29 +102,29 @@ void		exec(t_pipeline **pipeline, t_config **shell_config);
 
 // builtin
 
-char 		**bultinInit(t_free	*error_list);
-int			isBuiltin(char *command, char **builtinList);
+char		**bultin_init(t_free	*error_list);
+int			is_builtin(char *command, char **builtinList);
 void		callBuiltin(t_command *command, t_env **env);
-char		*myPwd(void);
-void		myExport(int total_args, char **args, t_env **env);
-void		myUnset(int total_args, char **args, t_env **env);
-void		myEnv(int total_args, char **args, t_env *env);
-void		myCd(int total_args, char **args);
-void		myEcho(char **args);
-void		myExit(t_config **shell_config, t_pipeline **pipeline);
+char		*my_pwd(void);
+void		my_export(int total_args, char **args, t_env **env);
+void		my_unset(int total_args, char **args, t_env **env);
+void		my_env(int total_args, char **args, t_env *env);
+void		my_cd(int total_args, char **args);
+void		my_echo(char **args);
+void		my_exit(t_config **shell_config, t_pipeline **pipeline);
 
-void	exit_minishell(t_config *shell_config);
+void		exit_minishell(t_config *shell_config);
 
 // exit
-void	free_pipeline(t_pipeline **pipeline);
+void		free_pipeline(t_pipeline **pipeline);
 // env
 
-t_env		*envInit(char **env, t_free *error_list);
-void		envDelete(t_env **env, t_env **env_before);
-t_env		*getLastEnv(t_env *env);
-void 		envInclude(t_env **env_before, char *env);
-void 		envPrint(t_env *env);
-size_t 		env_size(t_env	*env_list);
+t_env		*env_init(char **env, t_free *error_list);
+void		env_delete(t_env **env, t_env **env_before);
+t_env		*get_last_env(t_env *env);
+void		env_include(t_env **env_before, char *env);
+void		env_print(t_env *env);
+size_t		env_size(t_env	*env_list);
 char		**t_env_to_array(t_env *env_list);
 void		free_env_list(t_env **env_list);
 

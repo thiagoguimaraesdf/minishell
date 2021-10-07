@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/04 07:10:25 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/07 06:16:42 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ static char	**find_path(char **env, t_free	*error_list);
 	1. inicializar os parâmetros do shell - init_minishell()
 	2. ler lista de comandos inseridas pelo usuário no stdin - readline()
 	3. tokenizar os termos inseridos pelo usuário - tokenizer()
-	4. construir as listas de comandos do pipeline e fazer verificações de sintaxe - parser()
-	5. executar o pipeline inserido - exec()
+	4. construir as listas de comandos do pipeline
+	5. fazer verificações de sintaxe - parser()
+	6. executar o pipeline inserido - exec()
 	
 	Todas os parâmetros do shell são armazenados na struct t_config.
 
@@ -38,9 +39,9 @@ int	main(int argc, char **argv, char **env)
 {
 	char		*buffer;
 	t_pipeline	*pipeline;
-	
+
 	handle_signals();
-	if (!init_minishell(&shell_config, env))
+	if (!init_minishell(&g_shell_config, env))
 		exit(-1);
 	//while (1)
 	//{
@@ -58,7 +59,7 @@ int	main(int argc, char **argv, char **env)
 		// exec(&pipeline, &shell_config);
 		// // free_pipeline(&pipeline);
 	//}
-	exit_minishell(shell_config);
+	exit_minishell(g_shell_config);
 	return (0);
 }
 
@@ -75,8 +76,8 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	if (!(*shell_config))
 		return (-1);
 	(*shell_config)->free_list = ft_calloc(sizeof(t_free *), 1);
-	(*shell_config)->builtin_list = bultinInit((*shell_config)->free_list);
-	(*shell_config)->env = envInit(env, (*shell_config)->free_list);
+	(*shell_config)->builtin_list = bultin_init((*shell_config)->free_list);
+	(*shell_config)->env = env_init(env, (*shell_config)->free_list);
 	//(*shell_config)->path = find_path(env, (*shell_config)->free_list);
 	// if (!(*shell_config)->builtin_list || !(*shell_config)->env ||
 	// 	!(*shell_config)->path)
@@ -97,9 +98,9 @@ static int	init_minishell(t_config	**shell_config, char **env)
 */
 static char	**find_path(char **env, t_free	*error_list)
 {
-	char **path;
-	char **temp;
-	
+	char	**path;
+	char	**temp;
+
 	// fazer o trim antes de mandar para loop
 	// verificar antes qual a primiera var do env
 	// *env = ft_strchr(*env, '=');
@@ -107,7 +108,7 @@ static char	**find_path(char **env, t_free	*error_list)
 	{
 		if (!ft_strncmp(*env, "PATH", 4))
 		{
-			temp = ft_split(*env,':');
+			temp = ft_split(*env, ':');
 			break ;
 		}
 		env++;
