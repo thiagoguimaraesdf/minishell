@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 21:54:41 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/07 22:08:01 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ void		free_env_list(t_env **env_list);
 int			is_env2(t_env *env, char *str);
 t_env		*is_env(char *name, t_env *env);
 char		*get_env_content(char *name, t_env *env);
+void	update_env(char **temp_arg, t_env **env);
 
 // tokenizer
 

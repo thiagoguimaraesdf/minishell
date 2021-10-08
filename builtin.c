@@ -6,56 +6,11 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 21:52:08 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/07 22:07:42 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-	builtinInit
-	
-	Obs: Essa estrutura de dados pode ser transformada em uma
-	linked list com fins de otimizacao de espaco. Como a lista de
-	bultins em um shell eh limitada, preferi criar uma array,
-	pois a otimizacao de espaco tende a ser limitada.
-*/
-char	**bultin_init(t_free	*error_list)
-{
-	char		*builtins_string;
-	char		**builtin_list;
-
-	builtins_string = ft_strdup("echo,cd,pwd,export,unset,env,exit");
-	builtin_list = ft_split(builtins_string, ',');
-	if (!builtin_list)
-		return ((char **) NULL);
-	if (builtins_string)
-		free(builtins_string);
-	error_list->bultin = 1;
-	return (builtin_list);
-}
-
-int	is_builtin(char *command, char **builtin_list)
-{
-	int		i;
-	size_t	command_size;
-	size_t	max_size;
-
-	command_size = ft_strlen(command);
-	max_size = command_size;
-	i = 0;
-	while (builtin_list && builtin_list[i])
-	{
-		if (ft_strlen(builtin_list[i]) > max_size)
-			max_size = ft_strlen(builtin_list[i]);
-		if (!ft_strncmp(command, builtin_list[i], max_size))
-			return (1);
-		if (max_size != command_size)
-			max_size = command_size;
-		i++;
-	}
-	return (0);
-}
 
 char	*my_pwd(void)
 {
@@ -148,27 +103,6 @@ void	my_unset(int total_args, char **args, t_env **env)
 		}
 		args++;
 	}
-}
-
-void	update_env(char **temp_arg, t_env **env)
-{
-	t_env	*temp_env;
-
-	temp_env = *env;
-	if (temp_arg && temp_arg[1])
-	{
-		while (ft_strncmp(temp_env->content[0],
-				temp_arg[0], ft_strlen(temp_arg[0])))
-			temp_env = temp_env->next;
-		if (temp_env->content[1])
-			free(temp_env->content[1]);
-		temp_env->content[1] = ft_strdup(temp_arg[1]);
-	}
-	free(temp_arg[0]);
-	if (temp_arg[1])
-		free(temp_arg[1]);
-	free(temp_arg);
-	temp_arg = NULL;
 }
 
 void	identifier_error(char *str, char ***temp_arg, int total_args)
