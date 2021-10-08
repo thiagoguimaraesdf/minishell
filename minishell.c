@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 22:22:56 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/07 22:28:27 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,23 @@ int	main(int argc, char **argv, char **env)
 	handle_signals();
 	if (!init_minishell(&g_shell_config, env))
 		exit(-1);
-	//while (1)
-	//{
-		// pipeline = (t_pipeline *)malloc(sizeof(t_pipeline));
-		// if (!pipeline)
-		// 	exit(-1);
-		// buffer = readline("minishell>");
-		// if (buffer && buffer[0])
-		// 	add_history(buffer);
-		// pipeline->token_list = tokenizer(buffer, shell_config->env, shell_config->last_exit_status);
-		// free(buffer);
-		// buffer = NULL;
-		// pipeline->command_list = parser(&pipeline, shell_config->builtin_list, shell_config->path);
-		// // shell_config->current_pipe = &pipeline;
-		// exec(&pipeline, &shell_config);
-		// // free_pipeline(&pipeline);
-	//}
+	while (1)
+	{
+		pipeline = (t_pipeline *)malloc(sizeof(t_pipeline));
+		if (!pipeline)
+			exit(-1);
+		buffer = readline("minishell>");
+		if (buffer && buffer[0])
+			add_history(buffer);
+		pipeline->token_list = tokenizer(buffer, g_shell_config->env,
+				g_shell_config->last_exit_status);
+		free(buffer);
+		buffer = NULL;
+		pipeline->command_list = parser(&pipeline, g_shell_config->builtin_list,
+				g_shell_config->path);
+		exec(&pipeline, &g_shell_config);
+		free_pipeline(&pipeline);
+	}
 	exit_minishell(g_shell_config);
 	return (0);
 }
@@ -79,9 +80,9 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	(*shell_config)->builtin_list = bultin_init((*shell_config)->free_list);
 	(*shell_config)->env = env_init(env, (*shell_config)->free_list);
 	(*shell_config)->path = find_path(env, (*shell_config)->free_list);
-	// if (!(*shell_config)->builtin_list || !(*shell_config)->env ||
-	// 	!(*shell_config)->path)
-	// 	return (-1);
+	if (!(*shell_config)->builtin_list || !(*shell_config)->env
+		|| !(*shell_config)->path)
+		return (-1);
 	(*shell_config)->stdin = dup(1);
 	(*shell_config)->stdout = dup(0);
 	(*shell_config)->last_exit_status = -1;
