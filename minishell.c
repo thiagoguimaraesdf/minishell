@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 21:42:42 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/07 22:22:56 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	(*shell_config)->free_list = (t_free *)ft_calloc(sizeof(t_free *), 1);
 	(*shell_config)->builtin_list = bultin_init((*shell_config)->free_list);
 	(*shell_config)->env = env_init(env, (*shell_config)->free_list);
-	//(*shell_config)->path = find_path(env, (*shell_config)->free_list);
+	(*shell_config)->path = find_path(env, (*shell_config)->free_list);
 	// if (!(*shell_config)->builtin_list || !(*shell_config)->env ||
 	// 	!(*shell_config)->path)
 	// 	return (-1);
@@ -99,23 +99,19 @@ static int	init_minishell(t_config	**shell_config, char **env)
 static char	**find_path(char **env, t_free	*error_list)
 {
 	char	**path;
-	char	**temp;
 
-	// fazer o trim antes de mandar para loop
-	// verificar antes qual a primiera var do env
-	// *env = ft_strchr(*env, '=');
 	while (*env)
 	{
 		if (!ft_strncmp(*env, "PATH", 4))
 		{
-			temp = ft_split(*env, ':');
+			path = ft_split(*env, ':');
+			if (!path)
+				return (NULL);
 			break ;
 		}
 		env++;
 	}
-	*path = ft_strtrim(*temp, "PATH=");
-	ft_free_str_array(temp);
-	free(temp);
+	*path = ft_strtrim(*path, "PATH=");
 	error_list->path = true;
-	return (NULL);
+	return (path);
 }
