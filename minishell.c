@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 06:16:42 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/07 21:42:42 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	(*shell_config) = (t_config *)malloc(sizeof(t_config));
 	if (!(*shell_config))
 		return (-1);
-	(*shell_config)->free_list = ft_calloc(sizeof(t_free *), 1);
+	(*shell_config)->free_list = (t_free *)ft_calloc(sizeof(t_free *), 1);
 	(*shell_config)->builtin_list = bultin_init((*shell_config)->free_list);
 	(*shell_config)->env = env_init(env, (*shell_config)->free_list);
 	//(*shell_config)->path = find_path(env, (*shell_config)->free_list);

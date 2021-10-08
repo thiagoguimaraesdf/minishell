@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 06:56:48 by lmartins          #+#    #+#              #
-#    Updated: 2021/10/04 06:58:21 by lmartins         ###   ########.fr        #
+#    Updated: 2021/10/07 21:50:55 by tguimara         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRC = minishell.c signals.c parser.c executor.c builtin.c \
-environment.c tokenizer.c
+environment.c tokenizer.c tokenizer_reads.c utils.c
 
 OBJ = ${SRC:.c=.o}
 

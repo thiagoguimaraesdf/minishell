@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 06:18:17 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/07 21:54:41 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,9 @@ void		exit_minishell(t_config *shell_config);
 
 // exit
 void		free_pipeline(t_pipeline **pipeline);
+
 // env
+// TODO: HA DUAS FUNCOES IS ENV
 
 t_env		*env_init(char **env, t_free *error_list);
 void		env_delete(t_env **env, t_env **env_before);
@@ -127,9 +129,21 @@ void		env_print(t_env *env);
 size_t		env_size(t_env	*env_list);
 char		**t_env_to_array(t_env *env_list);
 void		free_env_list(t_env **env_list);
+int			is_env2(t_env *env, char *str);
+t_env		*is_env(char *name, t_env *env);
+char		*get_env_content(char *name, t_env *env);
 
 // tokenizer
 
 t_token		*tokenizer(char *buffer, t_env *env, int exit_status);
+int			token_type(char c);
+int			expand_var(char *str, t_token **token, t_env *env, int exit_status);
+int			read_string(char *str, t_token **token, t_env *env, int exit_status);
+int			read_redir(char *str, t_token **token);
+int			read_token(char *str, t_token **token);
+size_t		read_pipe(t_token **token);
+
+// utils
+int			end_var_pos(char *str);
 
 #endif

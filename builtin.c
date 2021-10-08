@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 05:59:54 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/07 21:52:08 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**bultin_init(t_free	*error_list)
 		return ((char **) NULL);
 	if (builtins_string)
 		free(builtins_string);
-	error_list->bultin = true;
+	error_list->bultin = 1;
 	return (builtin_list);
 }
 
@@ -122,23 +122,6 @@ void	my_env(int total_args, char **args, t_env *env)
 		env_print(temp_env);
 		temp_env = temp_env->next;
 	}
-}
-
-t_env	*is_env(char *name, t_env *env)
-{
-	size_t	name_size;
-
-	name_size = ft_strlen(name);
-	while (env && env->content[0])
-	{
-		if (ft_strlen(env->content[0]) == name_size)
-		{
-			if (!ft_strncmp(name, env->content[0], name_size))
-				return (env);
-		}
-		env = env->next;
-	}
-	return ((t_env *) NULL);
 }
 
 void	my_unset(int total_args, char **args, t_env **env)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:40:48 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 06:05:55 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/07 21:52:35 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,48 @@ t_env	*get_last_env(t_env *env)
 	while (last->next != NULL)
 		last = last->next;
 	return (last);
+}
+
+int	is_env2(t_env *env, char *str)
+{
+	while (env)
+	{
+		if (!ft_strncmp(env->content[0], str, ft_strlen(str)))
+			return (1);
+		env = env->next;
+	}
+	return (0);
+}
+
+t_env	*is_env(char *name, t_env *env)
+{
+	size_t	name_size;
+
+	name_size = ft_strlen(name);
+	while (env && env->content[0])
+	{
+		if (ft_strlen(env->content[0]) == name_size)
+		{
+			if (!ft_strncmp(name, env->content[0], name_size))
+				return (env);
+		}
+		env = env->next;
+	}
+	return ((t_env *) NULL);
+}
+
+char	*get_env_content(char *name, t_env *env)
+{
+	t_env	*temp_env;	
+
+	temp_env = env;
+	while (temp_env)
+	{
+		if (!ft_strncmp(temp_env->content[0], name, ft_strlen(name)))
+			return (temp_env->content[1]);
+		temp_env = temp_env->next;
+	}
+	return (NULL);
 }
 
 void	env_print(t_env *env)
