@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 06:19:37 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/14 06:01:36 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static void	exec_builtin(t_pipeline **pipeline, t_config **shell_config)
 		my_echo(command->args);
 	else if (!ft_strncmp(command->command, "exit", 4))
 		my_exit(shell_config, pipeline);
+	printf("Exec_builtin: %d\n", (*shell_config)->should_continue);
 	// exit(1);
 }
 

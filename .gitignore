@@ -3,3 +3,6 @@
 .vscode
 libft/src/*.o
 libft/ft_printf/src/*.o
+libft/libft.a
+.gitignore
+minishell

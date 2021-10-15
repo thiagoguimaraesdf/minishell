@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 22:28:27 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/14 05:56:19 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int	main(int argc, char **argv, char **env)
 	handle_signals();
 	if (!init_minishell(&g_shell_config, env))
 		exit(-1);
-	while (1)
+	while (g_shell_config->should_continue)
 	{
+		printf("Should_continue: %d\n", g_shell_config->should_continue);
 		pipeline = (t_pipeline *)malloc(sizeof(t_pipeline));
 		if (!pipeline)
 			exit(-1);
@@ -86,6 +87,7 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	(*shell_config)->stdin = dup(1);
 	(*shell_config)->stdout = dup(0);
 	(*shell_config)->last_exit_status = -1;
+	(*shell_config)->should_continue = true;
 	return (1);
 }
 
