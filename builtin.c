@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/14 05:59:45 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/15 06:28:47 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	my_env(int total_args, char **args, t_env *env)
 	}
 }
 
-void	my_unset(int total_args, char **args, t_env **env)
+void	my_unset(int total_args, char **args, t_env *env)
 {
 	t_env	*last_env;
 	t_env	*temp_env;
@@ -87,7 +87,7 @@ void	my_unset(int total_args, char **args, t_env **env)
 	if (!total_args)
 		return ;
 	args++;
-	temp_env = *env;
+	temp_env = env;
 	while (args && *args)
 	{
 		while (temp_env)
@@ -120,7 +120,7 @@ void	no_equal_handler(char *str)
 		ft_printf("minishell: export: `%s': not a valid identifier\n", str);
 }
 
-void	my_export(int total_args, char **args, t_env **env)
+void	my_export(int total_args, char **args, t_env *env)
 {
 	int		env_args;
 	char	**temp_arg;
@@ -135,16 +135,16 @@ void	my_export(int total_args, char **args, t_env **env)
 		temp_arg = ft_split(ft_strtrim(args[env_args], "\""), '=');
 		if (!ft_isalpha(**temp_arg))
 			return (identifier_error(args[env_args], &temp_arg, total_args));
-		cur_env = is_env(*temp_arg, *env);
+		cur_env = is_env(*temp_arg, env);
 		if (cur_env)
 			update_env(temp_arg, env);
 		else
 		{
 			printf("include:%s\n", args[env_args]);
-			cur_env = get_last_env(*env);
+			cur_env = get_last_env(env);
 			printf("after:%s\n", cur_env->content[0]);
 			env_include(&cur_env, args[env_args]);
-			cur_env = get_last_env(*env);
+			cur_env = get_last_env(env);
 			printf("new_last_env:%s\n", cur_env->content[0]);
 		}
 		env_args++;
@@ -261,15 +261,13 @@ void	free_pipeline(t_pipeline **pipeline)
 	em todas as variáveis mallocadas na struct t_config,
 	inicializadas no programa main().
 */
-void	free_config(t_config **shell_config)
+void	free_config()
 {	
-	if (!(*shell_config))
+	if (!g_shell_config)
 		return ;
-	ft_free_str_array((*shell_config)->builtin_list);
-	ft_free_str_array((*shell_config)->path);
-	free_env_list(&(*shell_config)->env);
-	free(*shell_config);
-	(*shell_config) = NULL;
+	ft_free_str_array(g_shell_config->builtin_list);
+	ft_free_str_array(g_shell_config->path);
+	free_env_list(g_shell_config->env);
 }
 
 /*
@@ -279,25 +277,25 @@ void	free_config(t_config **shell_config)
 	quais partes do program foram alocadas anteriormente
 	e chamar os metodos que realizarão o free.
 */
-void	exit_minishell(t_config *shell_config)
+void	exit_minishell()
 {
-	if (shell_config->free_list->env == true)
+	if (g_shell_config->free_list->env == true)
 	{
-		free_env_list(&shell_config->env);
-		free(shell_config->env);
+		free_env_list(g_shell_config->env);
+		free(g_shell_config->env);
 	}
-	if (shell_config->free_list->bultin == true)
+	if (g_shell_config->free_list->bultin == true)
 	{
-		ft_free_str_array(shell_config->builtin_list);
-		free(shell_config->builtin_list);
+		ft_free_str_array(g_shell_config->builtin_list);
+		free(g_shell_config->builtin_list);
 	}
-	if (shell_config->free_list->path == true)
-		ft_free_str_array(shell_config->path);
-	free(shell_config->free_list);
-	free(shell_config);
+	if (g_shell_config->free_list->path == true)
+		ft_free_str_array(g_shell_config->path);
+	free(g_shell_config->free_list);
+	free(g_shell_config);
 }
 
-void	my_exit(t_config **shell_config, t_pipeline **pipeline)
+void	my_exit(t_pipeline **pipeline)
 {
 	ft_printf("exit\n");
 	g_shell_config->should_continue = false;

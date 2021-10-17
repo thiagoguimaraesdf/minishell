@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:40:48 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 22:07:53 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/15 06:30:14 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ t_env	*is_env(char *name, t_env *env)
 	return ((t_env *) NULL);
 }
 
-void	update_env(char **temp_arg, t_env **env)
+void	update_env(char **temp_arg, t_env *env)
 {
 	t_env	*temp_env;
 
-	temp_env = *env;
+	temp_env = env;
 	if (temp_arg && temp_arg[1])
 	{
 		while (ft_strncmp(temp_env->content[0],
@@ -146,7 +146,7 @@ size_t	env_size(t_env	*env_list)
 	return (size);
 }
 
-t_env	*env_init(char **env, t_free	*error_list)
+t_env	*env_init(char **env)
 {
 	t_env	*env_list;
 	t_env	*next;
@@ -163,7 +163,7 @@ t_env	*env_init(char **env, t_free	*error_list)
 		next = next->next;
 		env++;
 	}
-	error_list->env = true;
+	g_shell_config->free_list->env = true;
 	return (env_list);
 }
 
@@ -195,14 +195,14 @@ char	**t_env_to_array(t_env *env_list)
 	init_minishell() > env_init().
 	A função env_init() está no arquivo environment.c
 */
-void	free_env_list(t_env **env_list)
+void	free_env_list(t_env *env_list)
 {
 	t_env	*aux;
 	t_env	*temp;
 
 	if (env_list == NULL)
 		return ;
-	aux = *env_list;
+	aux = env_list;
 	while (aux != NULL)
 	{
 		temp = aux->next;
@@ -212,5 +212,5 @@ void	free_env_list(t_env **env_list)
 		aux = NULL;
 		aux = temp;
 	}
-	*env_list = NULL;
+	env_list = NULL;
 }

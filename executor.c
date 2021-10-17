@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/14 06:01:36 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/15 06:26:31 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 
 #define TEMP_PATH "./temp"
 
-static char	*find_executable(char *command, char *cur_dir, char **path);
-
-static void	exec_builtin(t_pipeline **pipeline, t_config **shell_config)
+static void	exec_builtin(t_pipeline **pipeline)
 {
 	t_command	*command;
 	t_env		*env;
@@ -27,18 +25,17 @@ static void	exec_builtin(t_pipeline **pipeline, t_config **shell_config)
 	if (!ft_strncmp(command->command, "pwd", 3))
 		my_pwd();
 	else if (!ft_strncmp(command->command, "env", 3))
-		my_env(command->total_args, command->args, (*shell_config)->env);
+		my_env(command->total_args, command->args, g_shell_config->env);
 	else if (!ft_strncmp(command->command, "export", 6))
-		my_export(command->total_args, command->args, &(*shell_config)->env);
+		my_export(command->total_args, command->args, g_shell_config->env);
 	else if (!ft_strncmp(command->command, "unset", 5))
-		my_unset(command->total_args, command->args, &(*shell_config)->env);
+		my_unset(command->total_args, command->args, g_shell_config->env);
 	else if (!ft_strncmp(command->command, "cd", 2))
 		my_cd(command->total_args, command->args);
 	else if (!ft_strncmp(command->command, "echo", 4))
 		my_echo(command->args);
 	else if (!ft_strncmp(command->command, "exit", 4))
-		my_exit(shell_config, pipeline);
-	printf("Exec_builtin: %d\n", (*shell_config)->should_continue);
+		my_exit(pipeline);
 	// exit(1);
 }
 
@@ -98,7 +95,7 @@ static void	handle_redirection(t_command *command)
 	}	
 }
 
-static void	handle_pipe(t_command *command, t_config *shell_config)
+static void	handle_pipe(t_command *command)
 {
 	static int	fd[2];
 	static int	come_from_pipe;
@@ -117,13 +114,13 @@ static void	handle_pipe(t_command *command, t_config *shell_config)
 	}
 	else
 	{
-		dup2(shell_config->stdout, 1);
+		dup2(g_shell_config->stdout, 1);
 		dup2(fd[0], 0);
 		close(fd[0]);
 	}
 }
 
-void	exec(t_pipeline **pipeline, t_config **shell_config)
+void	exec(t_pipeline **pipeline)
 {
 	int			child_pid;
 	t_command	*command;
@@ -132,23 +129,23 @@ void	exec(t_pipeline **pipeline, t_config **shell_config)
 	while (command)
 	{
 		if ((*pipeline)->total_commands > 1)
-			handle_pipe(command, *shell_config);
+			handle_pipe(command);
 		child_pid = fork();
 		if (child_pid == 0)
 		{
 			handle_redirection(command);
 			if (command->builtin)
-				exec_builtin(pipeline, shell_config);
+				exec_builtin(pipeline);
 			else
 				execve(command->exec_path, command->args,
-					t_env_to_array((*shell_config)->env));
+					t_env_to_array(g_shell_config->env));
 			//my_env(command->total_args, command->args, (*shell_config)->env);
 		}
 		else
 		{
-			waitpid(child_pid, &(*shell_config)->last_exit_status, 0);
-			dup2((*shell_config)->stdin, 0);
-			dup2((*shell_config)->stdout, 1);
+			waitpid(child_pid, &g_shell_config->last_exit_status, 0);
+			dup2(g_shell_config->stdin, 0);
+			dup2(g_shell_config->stdout, 1);
 		}
 		command = command->next;
 	}

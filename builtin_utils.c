@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bultin_utils.c                                     :+:      :+:    :+:   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:06:59 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 22:07:20 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/15 06:05:17 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**bultin_init(t_free	*error_list)
+char	**bultin_init()
 {
 	char		*builtins_string;
 	char		**builtin_list;
@@ -23,7 +23,7 @@ char	**bultin_init(t_free	*error_list)
 		return ((char **) NULL);
 	if (builtins_string)
 		free(builtins_string);
-	error_list->bultin = 1;
+	g_shell_config->free_list->bultin = true;
 	return (builtin_list);
 }
 

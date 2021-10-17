@@ -6,16 +6,13 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/14 05:56:19 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/15 06:19:00 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "minishell.h"
-
-static int	init_minishell(t_config	**shell_config, char **env);
-static char	**find_path(char **env, t_free	*error_list);
 
 /*
 	MINISHELL
@@ -41,7 +38,7 @@ int	main(int argc, char **argv, char **env)
 	t_pipeline	*pipeline;
 
 	handle_signals();
-	if (!init_minishell(&g_shell_config, env))
+	if (!init_minishell(env))
 		exit(-1);
 	while (g_shell_config->should_continue)
 	{
@@ -58,7 +55,7 @@ int	main(int argc, char **argv, char **env)
 		buffer = NULL;
 		pipeline->command_list = parser(&pipeline, g_shell_config->builtin_list,
 				g_shell_config->path);
-		exec(&pipeline, &g_shell_config);
+		exec(&pipeline);
 		free_pipeline(&pipeline);
 	}
 	exit_minishell(g_shell_config);
@@ -72,22 +69,22 @@ int	main(int argc, char **argv, char **env)
 	mallocar, quando necessário, as variáveis da struct t_config.
 	A struct t_config é declarada no minishell.h
 */
-static int	init_minishell(t_config	**shell_config, char **env)
+static int	init_minishell(char **env)
 {
-	(*shell_config) = (t_config *)malloc(sizeof(t_config));
-	if (!(*shell_config))
+	g_shell_config = (t_config *)malloc(sizeof(t_config));
+	if (!(g_shell_config))
 		return (-1);
-	(*shell_config)->free_list = (t_free *)ft_calloc(sizeof(t_free *), 1);
-	(*shell_config)->builtin_list = bultin_init((*shell_config)->free_list);
-	(*shell_config)->env = env_init(env, (*shell_config)->free_list);
-	(*shell_config)->path = find_path(env, (*shell_config)->free_list);
-	if (!(*shell_config)->builtin_list || !(*shell_config)->env
-		|| !(*shell_config)->path)
+	g_shell_config->free_list = (t_free *)ft_calloc(sizeof(t_free *), 1);
+	g_shell_config->builtin_list = bultin_init();
+	g_shell_config->env = env_init(env);
+	g_shell_config->path = find_path(env);
+	if (!g_shell_config->builtin_list || !g_shell_config->env
+		|| !g_shell_config->path)
 		return (-1);
-	(*shell_config)->stdin = dup(1);
-	(*shell_config)->stdout = dup(0);
-	(*shell_config)->last_exit_status = -1;
-	(*shell_config)->should_continue = true;
+	g_shell_config->stdin = dup(1);
+	g_shell_config->stdout = dup(0);
+	g_shell_config->last_exit_status = -1;
+	g_shell_config->should_continue = true;
 	return (1);
 }
 
@@ -99,7 +96,7 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	Esse alocação é realizada para facilitar a busca pelos paths
 	declarados futuramente.
 */
-static char	**find_path(char **env, t_free	*error_list)
+static char	**find_path(char **env)
 {
 	char	**path;
 
@@ -115,6 +112,6 @@ static char	**find_path(char **env, t_free	*error_list)
 		env++;
 	}
 	*path = ft_strtrim(*path, "PATH=");
-	error_list->path = true;
+	g_shell_config->free_list->path = true;
 	return (path);
 }

@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 15:32:12 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 22:00:16 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/15 06:21:06 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static t_token	*init_token(int type, char *content);
-static size_t	token_router(char *buffer, t_token **token,
-					t_env *env, int exit_status);
 
 /* 
 	t_token	*tokenizer(char *buffer, t_env *env, int exit_status)
