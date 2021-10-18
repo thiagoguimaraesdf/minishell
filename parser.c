@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:32:57 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 14:30:48 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/18 16:29:32 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ t_command	*parser(t_pipeline **pipeline, t_config *g_shell_config)
 	command_list = init_command(&token, g_shell_config->builtin_list,
 			g_shell_config->path);
 	command = command_list;
+	if (!command)
+		return ((t_command *)NULL);
 	while (token)
 	{
 		if (token && token->type == IS_PIPE)
