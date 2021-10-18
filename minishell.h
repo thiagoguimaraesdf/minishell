@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 14:42:32 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/18 15:28:50 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define IS_REDIR_OUT		22
 # define IS_REDIR_IN_2		23
 # define IS_REDIR_OUT_2		24
+
+# define EXIT_NUMBER		999
 
 # include <stdbool.h>
 # include <stdio.h>
@@ -113,8 +115,8 @@ void		my_cd(int total_args, char **args);
 void		my_echo(char **args);
 void		my_exit(t_pipeline **pipeline);
 
-void	identifier_error(char *str, char ***temp_arg, int total_args);
-void	no_equal_handler(char *str);
+void		identifier_error(char *str, char ***temp_arg, int total_args);
+void		no_equal_handler(char *str);
 
 void		exit_minishell();
 

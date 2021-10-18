@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:06:59 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 11:53:12 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/18 15:11:44 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**bultin_init()
 	char		*builtins_string;
 	char		**builtin_list;
 
-	builtins_string = ft_strdup("echo,cd,pwd,export,unset,env,exit");
+	builtins_string = ft_strdup("echo,cd,pwd,export,unset,exit,env");
 	builtin_list = ft_split(builtins_string, ',');
 	if (!builtin_list)
 		return ((char **) NULL);

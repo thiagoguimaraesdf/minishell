@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:58:52 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 12:02:10 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/18 15:29:02 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ void	my_exit(t_pipeline **pipeline)
 {
 	ft_printf("exit\n");
 	g_shell_config->should_continue = false;
-	if (*pipeline)
-		free_pipeline(pipeline);
+	// if (*pipeline)
+	// 	free_pipeline(pipeline);
 	//if (*shell_config)
 		//free_config(shell_config);
 	printf("g_shell_config->should_continue: %d\n",
 		g_shell_config->should_continue);
-	exit(1);
+	exit(EXIT_NUMBER);
 }
