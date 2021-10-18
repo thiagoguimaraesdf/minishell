@@ -6,7 +6,7 @@
 #    By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 06:56:48 by lmartins          #+#    #+#              #
-#    Updated: 2021/10/18 11:59:43 by tguimara         ###   ########.fr        #
+#    Updated: 2021/10/18 14:32:05 by tguimara         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 SRC = minishell.c signals.c parser.c executor.c builtin.c builtin2.c \
 builtin_utils.c environment_utils.c environment_utils2.c environment_create.c \
-tokenizer.c tokenizer_reads.c utils.c free_functions.c 
+tokenizer.c tokenizer_reads.c utils.c free_functions.c parser_utils.c
 
 OBJ = ${SRC:.c=.o}
 

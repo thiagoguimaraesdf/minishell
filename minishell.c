@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 11:29:56 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/18 13:59:47 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ int	main(int argc, char **argv, char **env)
 				g_shell_config->last_exit_status);
 		free(buffer);
 		buffer = NULL;
-		pipeline->command_list = parser(&pipeline, g_shell_config->builtin_list,
-				g_shell_config->path);
+		pipeline->command_list = parser(&pipeline, g_shell_config);
 		exec(&pipeline);
 		// free_pipeline(&pipeline);
 	}

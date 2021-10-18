@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 12:03:55 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/18 14:31:39 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,11 @@ typedef struct s_config {
 t_config	*g_shell_config;
 
 void		handle_signals(void);
-t_command	*parser(t_pipeline **pipeline, char **builtin_list, char **path);
+t_command	*parser(t_pipeline **pipeline, t_config *g_shell_config);
 int			commandChecker(t_command *command);
 void		exec(t_pipeline **pipeline);
 
 // builtin
-
 char		**bultin_init();
 int			is_builtin(char *command, char **builtinList);
 void		callBuiltin(t_command *command, t_env **env);
@@ -138,7 +137,6 @@ char		*get_env_content(char *name, t_env *env);
 void		update_env(char **temp_arg, t_env *env);
 
 // tokenizer
-
 t_token		*tokenizer(char *buffer, t_env *env, int exit_status);
 int			token_type(char c);
 int			expand_var(char *str, t_token **token, t_env *env, int exit_status);
@@ -154,8 +152,7 @@ int			end_var_pos(char *str);
 
 
 // parser
-static char	*find_executable(char *command, char *cur_dir, char **path);
-
+t_command	*init_command(t_token **token, char **builtin_list, char **path);
 
 // minishell
 static int	init_minishell(char **env);
