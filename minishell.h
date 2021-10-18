@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 14:31:39 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/18 14:42:32 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,20 +150,11 @@ static size_t	token_router(char *buffer, t_token **token, t_env *env, int exit_s
 // utils
 int			end_var_pos(char *str);
 
-
 // parser
 t_command	*init_command(t_token **token, char **builtin_list, char **path);
 
-// minishell
-static int	init_minishell(char **env);
-static char	**find_path(char **env);
-
 // free
-static void	free_token_list(t_token **token_list);
-static void	free_redirections(t_command **command_list);
-static void	free_command_list(t_command **command_list);
 void		free_pipeline(t_pipeline **pipeline);
 void		free_config();
-
 
 #endif

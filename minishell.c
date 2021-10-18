@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 13:59:47 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/18 14:42:45 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <readline/history.h>
 #include "minishell.h"
 
+static int	init_minishell(char **env);
+static char	**find_path(char **env);
 /*
 	MINISHELL
 	
