@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/15 06:19:00 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/18 11:29:56 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **env)
 		pipeline->command_list = parser(&pipeline, g_shell_config->builtin_list,
 				g_shell_config->path);
 		exec(&pipeline);
-		free_pipeline(&pipeline);
+		// free_pipeline(&pipeline);
 	}
 	exit_minishell(g_shell_config);
 	return (0);

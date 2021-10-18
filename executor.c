@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/15 06:26:31 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/18 11:41:58 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	exec_builtin(t_pipeline **pipeline)
 	t_env		*env;
 
 	command = (*pipeline)->command_list;
-	// env = (*shell_config)->env;
 	if (!ft_strncmp(command->command, "pwd", 3))
 		my_pwd();
 	else if (!ft_strncmp(command->command, "env", 3))
@@ -36,7 +35,6 @@ static void	exec_builtin(t_pipeline **pipeline)
 		my_echo(command->args);
 	else if (!ft_strncmp(command->command, "exit", 4))
 		my_exit(pipeline);
-	// exit(1);
 }
 
 static int	read_from_source(t_command *command)
@@ -65,7 +63,6 @@ static int	read_from_source(t_command *command)
 /*
 	bug 1: cat << oi > text.xt
 	bug 2: ls | cat > text.xt
-
 */
 static void	handle_redirection(t_command *command)
 {

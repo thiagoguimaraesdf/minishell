@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:32:57 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/15 06:21:15 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/18 11:40:50 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,7 @@ static char	*find_executable(char *command, char *cur_dir, char **path)
 	{
 		while (path[i])
 		{
-			// necessario dar free neste full_path
 			full_path = ft_strjoin(path[i], new_command);
-			// printf("full path:%s\n", full_path);
-			// printf("path stat%d\n\n", stat(full_path, stat_buf));
 			if (stat(full_path, &stat_buf) >= 0)
 				return (full_path);
 			i++;
@@ -143,7 +140,6 @@ t_command	*parser(t_pipeline **pipeline, char **builtin_list, char **path)
 	t_command	*command;
 	int			i;
 
-	// init command realiza verificação se comando é builtin ou executável
 	token = (*pipeline)->token_list;
 	(*pipeline)->total_commands = 1;
 	command_list = init_command(&token, builtin_list, path);

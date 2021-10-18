@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/15 06:29:34 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/18 12:03:55 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,9 @@ void		my_cd(int total_args, char **args);
 void		my_echo(char **args);
 void		my_exit(t_pipeline **pipeline);
 
+void	identifier_error(char *str, char ***temp_arg, int total_args);
+void	no_equal_handler(char *str);
+
 void		exit_minishell();
 
 // exit
@@ -121,7 +124,6 @@ void		free_pipeline(t_pipeline **pipeline);
 
 // env
 // TODO: HA DUAS FUNCOES IS ENV
-
 t_env		*env_init(char **env);
 void		env_delete(t_env **env, t_env **env_before);
 t_env		*get_last_env(t_env *env);
@@ -158,5 +160,13 @@ static char	*find_executable(char *command, char *cur_dir, char **path);
 // minishell
 static int	init_minishell(char **env);
 static char	**find_path(char **env);
+
+// free
+static void	free_token_list(t_token **token_list);
+static void	free_redirections(t_command **command_list);
+static void	free_command_list(t_command **command_list);
+void		free_pipeline(t_pipeline **pipeline);
+void		free_config();
+
 
 #endif

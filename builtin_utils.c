@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:06:59 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/15 06:05:17 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/10/18 11:53:12 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,19 @@ int	is_builtin(char *command, char **builtin_list)
 		i++;
 	}
 	return (0);
+}
+
+void	identifier_error(char *str, char ***temp_arg, int total_args)
+{
+	ft_printf("minishell: export: `%s': not a valid identifier\n", str);
+	while (*temp_arg && **temp_arg)
+		free(**temp_arg++);
+	free(*(temp_arg - total_args));
+	return ;
+}
+
+void	no_equal_handler(char *str)
+{
+	if (!ft_isalpha(str[0]))
+		ft_printf("minishell: export: `%s': not a valid identifier\n", str);
 }
