@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 15:29:32 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/20 06:39:44 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	main(int argc, char **argv, char **env)
 		exit(-1);
 	while (g_shell_config->last_exit_status != 59136)
 	{
-		printf("Should_continue 2: %d\n", g_shell_config->should_continue);
 		pipeline = (t_pipeline *)malloc(sizeof(t_pipeline));
 		if (!pipeline)
 			exit(-1);
@@ -57,11 +56,9 @@ int	main(int argc, char **argv, char **env)
 		buffer = NULL;
 		pipeline->command_list = parser(&pipeline, g_shell_config);
 		exec(&pipeline);
-		printf("g_shell_config->should_continue: %d\n",
-			g_shell_config->last_exit_status);
 		// free_pipeline(&pipeline);
+		printf("Exit_status: %d\n", g_shell_config->last_exit_status);
 	}
-	// printf("hello\n");
 	exit_minishell(g_shell_config);
 	return (0);
 }

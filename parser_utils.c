@@ -3,20 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 14:30:54 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 16:28:08 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/20 07:07:49 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-	TODO:
-	- Necessário verificar se o arquivo é diretorio. Caso seja, retornar no formato:
-		bash: /home/tguimara/42sp/projects/minishell: Is a directory
-*/
+void	check_valid_path(char *command)
+{
+	struct stat	stat_buf;
+
+	if (stat(command, &stat_buf) < 0)
+		ft_printf("-minishell: %s: No such file or directory\n", command);
+	else if (stat_buf.st_mode & __S_IFDIR)
+		ft_printf("bash: %s: Is a directory\n", command);
+}
+
 static char	*find_executable(char *command, char *cur_dir, char **path)
 {
 	char		*new_command;
@@ -28,8 +33,7 @@ static char	*find_executable(char *command, char *cur_dir, char **path)
 	new_command = ft_strjoin("/", command);
 	if (!ft_strncmp(command, "./", 2) || !ft_strncmp(command, "/", 1))
 	{
-		if (stat(command, &stat_buf) < 0)
-			ft_printf("-minishell: %s: No such file or directory\n", command);
+		check_valid_path(command);
 		return (command);
 	}
 	else

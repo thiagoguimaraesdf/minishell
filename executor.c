@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 11:41:58 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/10/20 06:37:02 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ void	exec(t_pipeline **pipeline)
 			else
 				execve(command->exec_path, command->args,
 					t_env_to_array(g_shell_config->env));
-			//my_env(command->total_args, command->args, (*shell_config)->env);
 		}
 		else
 		{
