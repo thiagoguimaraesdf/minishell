@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/20 06:39:44 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/15 23:15:49 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **env)
 	handle_signals();
 	if (!init_minishell(env))
 		exit(-1);
-	while (g_shell_config->last_exit_status != 59136)
+	while (g_shell_config->should_continue)
 	{
 		pipeline = (t_pipeline *)malloc(sizeof(t_pipeline));
 		if (!pipeline)
@@ -55,9 +55,9 @@ int	main(int argc, char **argv, char **env)
 		free(buffer);
 		buffer = NULL;
 		pipeline->command_list = parser(&pipeline, g_shell_config);
+		check_command(pipeline);
 		exec(&pipeline);
-		// free_pipeline(&pipeline);
-		printf("Exit_status: %d\n", g_shell_config->last_exit_status);
+		//free_pipeline(&pipeline);
 	}
 	exit_minishell(g_shell_config);
 	return (0);

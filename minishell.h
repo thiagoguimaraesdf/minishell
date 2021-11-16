@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 15:28:50 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/15 23:15:43 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ static t_token	*init_token(int type, char *content);
 static size_t	token_router(char *buffer, t_token **token, t_env *env, int exit_status);
 
 // utils
+void		check_command(t_pipeline	*pipeline);
 int			end_var_pos(char *str);
 
 // parser
