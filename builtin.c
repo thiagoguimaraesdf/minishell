@@ -6,13 +6,13 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/15 23:06:58 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/21 06:03:17 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*my_pwd(void)
+char	*my_pwd(char *origin)
 {
 	char	*cur_dir;
 
@@ -20,8 +20,11 @@ char	*my_pwd(void)
 	if (!cur_dir)
 		return ((char *) NULL);
 	cur_dir = getcwd(cur_dir, 100);
-	write(1, cur_dir, ft_strlen(cur_dir));
-	write(1, "\n", 1);
+	if (!ft_strncmp(origin, "exec", 4))
+	{
+		write(1, cur_dir, ft_strlen(cur_dir));
+		write(1, "\n", 1);
+	}
 	return (cur_dir);
 }
 

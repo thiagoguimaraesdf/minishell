@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/20 06:37:02 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/21 06:02:53 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	exec_builtin(t_pipeline **pipeline)
 
 	command = (*pipeline)->command_list;
 	if (!ft_strncmp(command->command, "pwd", 3))
-		my_pwd();
+		my_pwd("exec");
 	else if (!ft_strncmp(command->command, "env", 3))
 		my_env(command->total_args, command->args, g_shell_config->env);
 	else if (!ft_strncmp(command->command, "export", 6))

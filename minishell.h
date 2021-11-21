@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/15 23:15:43 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/21 06:03:16 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void		exec(t_pipeline **pipeline);
 char		**bultin_init();
 int			is_builtin(char *command, char **builtinList);
 void		callBuiltin(t_command *command, t_env **env);
-char		*my_pwd(void);
+char		*my_pwd(char *origin);
 void		my_export(int total_args, char **args, t_env *env);
 void		my_unset(int total_args, char **args, t_env *env);
 void		my_env(int total_args, char **args, t_env *env);

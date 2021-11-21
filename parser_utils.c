@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 14:30:54 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/20 07:07:49 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/21 06:02:49 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_command	*init_command(t_token **token, char **builtin_list, char **path)
 		command->builtin = 1;
 	else
 	{
-		command->exec_path = find_executable((*token)->content, my_pwd(), path);
+		command->exec_path = find_executable((*token)->content, my_pwd("init"), path);
 		if (!command->exec_path)
 		{
 			ft_printf("%s: command not found\n", (*token)->content);
