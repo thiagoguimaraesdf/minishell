@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 06:16:42 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/21 05:48:20 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 #include <readline/history.h>
 #include "minishell.h"
 
-static int	init_minishell(t_config	**shell_config, char **env);
-static char	**find_path(char **env, t_free	*error_list);
-
+static int	init_minishell(char **env);
+static char	**find_path(char **env);
 /*
 	MINISHELL
 	
@@ -41,24 +40,25 @@ int	main(int argc, char **argv, char **env)
 	t_pipeline	*pipeline;
 
 	handle_signals();
-	if (!init_minishell(&g_shell_config, env))
+	if (!init_minishell(env))
 		exit(-1);
-	//while (1)
-	//{
-		// pipeline = (t_pipeline *)malloc(sizeof(t_pipeline));
-		// if (!pipeline)
-		// 	exit(-1);
-		// buffer = readline("minishell>");
-		// if (buffer && buffer[0])
-		// 	add_history(buffer);
-		// pipeline->token_list = tokenizer(buffer, shell_config->env, shell_config->last_exit_status);
-		// free(buffer);
-		// buffer = NULL;
-		// pipeline->command_list = parser(&pipeline, shell_config->builtin_list, shell_config->path);
-		// // shell_config->current_pipe = &pipeline;
-		// exec(&pipeline, &shell_config);
-		// // free_pipeline(&pipeline);
-	//}
+	while (g_shell_config->should_continue)
+	{
+		pipeline = (t_pipeline *)malloc(sizeof(t_pipeline));
+		if (!pipeline)
+			exit(-1);
+		buffer = readline("minishell>");
+		if (buffer && buffer[0])
+			add_history(buffer);
+		pipeline->token_list = tokenizer(buffer, g_shell_config->env,
+				g_shell_config->last_exit_status);
+		free(buffer);
+		buffer = NULL;
+		pipeline->command_list = parser(&pipeline, g_shell_config);
+		check_command(pipeline);
+		exec(&pipeline);
+		//free_pipeline(&pipeline);
+	}
 	exit_minishell(g_shell_config);
 	return (0);
 }
@@ -70,21 +70,22 @@ int	main(int argc, char **argv, char **env)
 	mallocar, quando necessário, as variáveis da struct t_config.
 	A struct t_config é declarada no minishell.h
 */
-static int	init_minishell(t_config	**shell_config, char **env)
+static int	init_minishell(char **env)
 {
-	(*shell_config) = (t_config *)malloc(sizeof(t_config));
-	if (!(*shell_config))
+	g_shell_config = (t_config *)malloc(sizeof(t_config));
+	if (!(g_shell_config))
 		return (-1);
-	(*shell_config)->free_list = ft_calloc(sizeof(t_free *), 1);
-	(*shell_config)->builtin_list = bultin_init((*shell_config)->free_list);
-	(*shell_config)->env = env_init(env, (*shell_config)->free_list);
-	//(*shell_config)->path = find_path(env, (*shell_config)->free_list);
-	// if (!(*shell_config)->builtin_list || !(*shell_config)->env ||
-	// 	!(*shell_config)->path)
-	// 	return (-1);
-	(*shell_config)->stdin = dup(1);
-	(*shell_config)->stdout = dup(0);
-	(*shell_config)->last_exit_status = -1;
+	g_shell_config->free_list = (t_free *)ft_calloc(sizeof(t_free *), 1);
+	g_shell_config->builtin_list = bultin_init();
+	g_shell_config->env = env_init(env);
+	g_shell_config->path = find_path(env);
+	if (!g_shell_config->builtin_list || !g_shell_config->env
+		|| !g_shell_config->path)
+		return (-1);
+	g_shell_config->stdin = dup(1);
+	g_shell_config->stdout = dup(0);
+	g_shell_config->last_exit_status = -1;
+	g_shell_config->should_continue = true;
 	return (1);
 }
 
@@ -96,26 +97,22 @@ static int	init_minishell(t_config	**shell_config, char **env)
 	Esse alocação é realizada para facilitar a busca pelos paths
 	declarados futuramente.
 */
-static char	**find_path(char **env, t_free	*error_list)
+static char	**find_path(char **env)
 {
 	char	**path;
-	char	**temp;
 
-	// fazer o trim antes de mandar para loop
-	// verificar antes qual a primiera var do env
-	// *env = ft_strchr(*env, '=');
 	while (*env)
 	{
 		if (!ft_strncmp(*env, "PATH", 4))
 		{
-			temp = ft_split(*env, ':');
+			path = ft_split(*env, ':');
+			if (!path)
+				return (NULL);
 			break ;
 		}
 		env++;
 	}
-	*path = ft_strtrim(*temp, "PATH=");
-	ft_free_str_array(temp);
-	free(temp);
-	error_list->path = true;
-	return (NULL);
+	*path = ft_strtrim(*path, "PATH=");
+	g_shell_config->free_list->path = true;
+	return (path);
 }

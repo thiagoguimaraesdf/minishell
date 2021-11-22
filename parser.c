@@ -6,11 +6,11 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:32:57 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 06:25:06 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/21 05:49:46 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 #include <fcntl.h>
 
 #include <stdio.h>
@@ -23,7 +23,6 @@ void	parse_redirections(t_token **token, t_command **command)
 		{
 			(*command)->redirection_in[0] = ft_strdup((*token)->content);
 			(*token) = (*token)->next;
-			// necessario criar função para lidar com syntax error
 			if ((*token)->type != IS_COMMON)
 				break ;
 			(*command)->redirection_in[1] = ft_strdup((*token)->content);
@@ -33,7 +32,6 @@ void	parse_redirections(t_token **token, t_command **command)
 		{
 			(*command)->redirection_out[0] = ft_strdup((*token)->content);
 			(*token) = (*token)->next;
-			// necessario criar função para lidar com syntax error
 			if ((*token)->type != IS_COMMON)
 				break ;
 			(*command)->redirection_out[1] = ft_strdup((*token)->content);
@@ -56,118 +54,46 @@ static int	parse_args(t_token **token, t_command **command)
 	return (total_args - 1);
 }
 
-/*
-	TODO:
-	- Necessário verificar se o arquivo é diretorio. Caso seja, retornar no formato:
-		bash: /home/tguimara/42sp/projects/minishell: Is a directory
-*/
-static char	*find_executable(char *command, char *cur_dir, char **path)
+static int	handle_pipe(t_pipeline **pipeline, t_command **command,
+	t_token	**token, t_config *g_shell_config)
 {
-	char		*new_command;
-	char		*full_path;
-	struct stat	stat_buf;
-	int			i;
-
-	i = 0;
-	new_command = ft_strjoin("/", command);
-	if (!ft_strncmp(command, "./", 2) || !ft_strncmp(command, "/", 1))
-	{
-		if (stat(command, &stat_buf) < 0)
-		{
-			ft_printf("-minishell: %s: No such file or directory\n", command);
-			return (NULL);
-		}
-		return (command);
-	}
-	else
-	{
-		while (path[i])
-		{
-			// necessario dar free neste full_path
-			full_path = ft_strjoin(path[i], new_command);
-			// printf("full path:%s\n", full_path);
-			// printf("path stat%d\n\n", stat(full_path, stat_buf));
-			if (stat(full_path, &stat_buf) >= 0)
-				return (full_path);
-			i++;
-		}
-	}
-	return (NULL);
-}
-
-t_command	*init_command(t_token **token, char **builtin_list, char **path)
-{
-	t_command	*command;
-
-	command = (t_command *)malloc(sizeof(t_command));
-	if (!command)
-		return (NULL);
-	command->exec_path = NULL;
-	if (is_builtin((*token)->content, builtin_list))
-		command->builtin = 1;
-	else
-	{
-		// nao esta veficcando corretamente se é exec. apenas se arquivo existe
-		command->exec_path = NULL;
-		command->exec_path = find_executable((*token)->content, my_pwd(), path);
-		if (!command->exec_path)
-		{
-			ft_printf("%s: command not found\n", (*token)->content);
-			free(command);
-			return ((t_command *) NULL);
-		}
-		command->builtin = 0;
-	}
-	command->command = ft_strdup((const char *)(*token)->content);
-	command->args = (char **)ft_calloc(sizeof(char *), 256);
-	command->args[0] = ft_strdup(command->command);
-	command->total_args = -1;
-	command->redirection_in = (char **)ft_calloc(sizeof(char *), 3);
-	command->redirection_out = (char **)ft_calloc(sizeof(char *), 3);
-	command->has_pipe = -1;
-	command->next = NULL;
+	(*pipeline)->total_commands = (*pipeline)->total_commands + 1;
 	(*token) = (*token)->next;
-	return (command);
+	if (!(*token))
+		return (-1);
+	if ((*token))
+	{
+		(*command)->has_pipe = 1;
+		(*command)->next = init_command(token, g_shell_config->builtin_list,
+				g_shell_config->path);
+		if (!(*command)->next)
+			return (-1);
+		(*command) = (*command)->next;
+	}	
+	else
+		return (-1);
+	return (0);
 }
 
-static void	read_tokens(void)
-{
-
-}
-
-t_command	*parser(t_pipeline **pipeline, char **builtin_list, char **path)
+t_command	*parser(t_pipeline **pipeline, t_config *g_shell_config)
 {
 	int			total_args;
 	t_token		*token;
 	t_command	*command_list;
 	t_command	*command;
-	int			i;
 
-	// init command realiza verificação se comando é builtin ou executável
 	token = (*pipeline)->token_list;
 	(*pipeline)->total_commands = 1;
-	command_list = init_command(&token, builtin_list, path);
+	command_list = init_command(&token, g_shell_config->builtin_list,
+			g_shell_config->path);
 	command = command_list;
-	if (!command_list)
-		return ((t_command *) NULL);
+	if (!command)
+		return ((t_command *)NULL);
 	while (token)
 	{
 		if (token && token->type == IS_PIPE)
 		{
-			(*pipeline)->total_commands = (*pipeline)->total_commands + 1;
-			token = token -> next;
-			// syntax error
-			if (!token)
-				break ;
-			if (token)
-			{
-				command->has_pipe = 1;
-				command->next = init_command(&token, builtin_list, path);
-				if (!command->next)
-					break ;
-				command = command->next;
-			}	
-			else
+			if (handle_pipe(pipeline, &command, &token, g_shell_config) == -1)
 				break ;
 		}
 		if (!token)

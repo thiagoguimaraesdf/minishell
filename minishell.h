@@ -6,7 +6,7 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 06:18:17 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/21 06:03:16 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define IS_REDIR_OUT		22
 # define IS_REDIR_IN_2		23
 # define IS_REDIR_OUT_2		24
+
+# define EXIT_NUMBER		999
 
 # include <stdbool.h>
 # include <stdio.h>
@@ -90,46 +92,72 @@ typedef struct s_config {
 	int					stdin;
 	int					stdout;
 	int					last_exit_status;
+	int					should_continue;
 	t_free				*free_list;
 }	t_config;
 
 t_config	*g_shell_config;
 
 void		handle_signals(void);
-t_command	*parser(t_pipeline **pipeline, char **builtin_list, char **path);
+t_command	*parser(t_pipeline **pipeline, t_config *g_shell_config);
 int			commandChecker(t_command *command);
-void		exec(t_pipeline **pipeline, t_config **shell_config);
+void		exec(t_pipeline **pipeline);
 
 // builtin
-
-char		**bultin_init(t_free	*error_list);
+char		**bultin_init();
 int			is_builtin(char *command, char **builtinList);
 void		callBuiltin(t_command *command, t_env **env);
-char		*my_pwd(void);
-void		my_export(int total_args, char **args, t_env **env);
-void		my_unset(int total_args, char **args, t_env **env);
+char		*my_pwd(char *origin);
+void		my_export(int total_args, char **args, t_env *env);
+void		my_unset(int total_args, char **args, t_env *env);
 void		my_env(int total_args, char **args, t_env *env);
 void		my_cd(int total_args, char **args);
 void		my_echo(char **args);
-void		my_exit(t_config **shell_config, t_pipeline **pipeline);
+void		my_exit(t_pipeline **pipeline);
 
-void		exit_minishell(t_config *shell_config);
+void		identifier_error(char *str, char ***temp_arg, int total_args);
+void		no_equal_handler(char *str);
+
+void		exit_minishell();
 
 // exit
 void		free_pipeline(t_pipeline **pipeline);
-// env
 
-t_env		*env_init(char **env, t_free *error_list);
+// env
+// TODO: HA DUAS FUNCOES IS ENV
+t_env		*env_init(char **env);
 void		env_delete(t_env **env, t_env **env_before);
 t_env		*get_last_env(t_env *env);
 void		env_include(t_env **env_before, char *env);
 void		env_print(t_env *env);
 size_t		env_size(t_env	*env_list);
 char		**t_env_to_array(t_env *env_list);
-void		free_env_list(t_env **env_list);
+void		free_env_list(t_env *env_list);
+int			is_env2(t_env *env, char *str);
+t_env		*is_env(char *name, t_env *env);
+char		*get_env_content(char *name, t_env *env);
+void		update_env(char **temp_arg, t_env *env);
 
 // tokenizer
-
 t_token		*tokenizer(char *buffer, t_env *env, int exit_status);
+int			token_type(char c);
+int			expand_var(char *str, t_token **token, t_env *env, int exit_status);
+int			read_string(char *str, t_token **token, t_env *env, int exit_status);
+int			read_redir(char *str, t_token **token);
+int			read_token(char *str, t_token **token);
+size_t		read_pipe(t_token **token);
+static t_token	*init_token(int type, char *content);
+static size_t	token_router(char *buffer, t_token **token, t_env *env, int exit_status);
+
+// utils
+void		check_command(t_pipeline	*pipeline);
+int			end_var_pos(char *str);
+
+// parser
+t_command	*init_command(t_token **token, char **builtin_list, char **path);
+
+// free
+void		free_pipeline(t_pipeline **pipeline);
+void		free_config();
 
 #endif
