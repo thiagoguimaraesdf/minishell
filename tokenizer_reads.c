@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 15:32:12 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/07 22:04:17 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 16:33:53 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	read_string(char *str, t_token **token, t_env *env, int exit_status)
 			i += expand_var(str + i, token, env, exit_status);
 			continue ;
 		}
-		(*token)->content[i - 1] = str[i];
+		(*token)->content[ft_strlen((*token)->content)] = str[i];
 		i++;
 	}
 	return (i + 1);
