@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/20 06:37:02 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:13:13 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	exec_builtin(t_pipeline **pipeline)
 		my_echo(command->args);
 	else if (!ft_strncmp(command->command, "exit", 4))
 		my_exit(pipeline);
+	exit(0);
 }
 
 static int	read_from_source(t_command *command)

@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 14:30:54 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 10:13:59 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:12:15 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,15 @@ void	check_valid_path(char *command)
 	struct stat	stat_buf;
 
 	if (stat(command, &stat_buf) < 0)
+	{
 		ft_printf("-minishell: %s: No such file or directory\n", command);
+		g_shell_config->last_exit_status = 127;
+	}	
 	else if (stat_buf.st_mode & __S_IFDIR)
+	{
 		ft_printf("bash: %s: Is a directory\n", command);
+		g_shell_config->last_exit_status = 126;
+	}	
 }
 
 static char	*find_executable(char *command, char *cur_dir, char **path)
@@ -80,6 +86,7 @@ t_command	*init_command(t_token **token, char **builtin_list, char **path)
 		if (!command->exec_path)
 		{
 			ft_printf("%s: command not found\n", (*token)->content);
+			g_shell_config->last_exit_status = 127;
 			free(command);
 			return ((t_command *) NULL);
 		}
