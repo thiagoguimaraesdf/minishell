@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:32:57 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 16:29:32 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 17:43:37 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	handle_pipe(t_pipeline **pipeline, t_command **command,
 	{
 		(*command)->has_pipe = 1;
 		(*command)->next = init_command(token, g_shell_config->builtin_list,
-				g_shell_config->path);
+				g_shell_config->env);
 		if (!(*command)->next)
 			return (-1);
 		(*command) = (*command)->next;
@@ -85,7 +85,7 @@ t_command	*parser(t_pipeline **pipeline, t_config *g_shell_config)
 	token = (*pipeline)->token_list;
 	(*pipeline)->total_commands = 1;
 	command_list = init_command(&token, g_shell_config->builtin_list,
-			g_shell_config->path);
+			g_shell_config->env);
 	command = command_list;
 	if (!command)
 		return ((t_command *)NULL);

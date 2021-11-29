@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 16:36:35 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 17:27:49 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,9 +132,10 @@ void	exec(t_pipeline **pipeline)
 		if (command->builtin)
 			exec_builtin(pipeline);
 		else
-		{			
+		{
 			child_pid = fork();
 			handle_exec_signals();
+			ft_putstrarray(t_env_to_array(g_shell_config->env));
 			if (child_pid == 0)
 				execve(command->exec_path, command->args,
 					t_env_to_array(g_shell_config->env));

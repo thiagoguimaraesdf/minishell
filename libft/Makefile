@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/18 17:30:09 by tguimara          #+#    #+#              #
-#    Updated: 2021/10/04 06:58:39 by lmartins         ###   ########.fr        #
+#    Updated: 2021/11/29 16:59:40 by tguimara         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ src/ft_isalpha.c src/ft_isdigit.c src/ft_isalnum.c src/ft_isascii.c src/ft_ispri
 src/ft_toupper.c src/ft_tolower.c src/ft_calloc.c src/ft_strdup.c src/ft_substr.c \
 src/ft_strjoin.c src/ft_strtrim.c src/ft_split.c src/ft_itoa.c src/ft_strmapi.c \
 src/ft_putchar_fd.c src/ft_putstr_fd.c src/ft_putendl_fd.c src/ft_putnbr_fd.c \
-src/ft_charpos.c src/ft_free_str_array.c
+src/ft_charpos.c src/ft_free_str_array.c src/ft_putstrarray.c
  
 SRC_BONUS = src/ft_lstnew.c src/ft_lstadd_front.c src/ft_lstsize.c src/ft_lstlast.c src/ft_lstadd_back.c \
 src/ft_lstdelone.c src/ft_lstclear.c src/ft_lstiter.c

@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 14:30:54 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 15:53:56 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 17:46:54 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,19 @@ static int	init_command_helper(t_command **command, char *content)
 	return (0);
 }
 
-t_command	*init_command(t_token **token, char **builtin_list, char **path)
+t_command	*init_command(t_token **token, char **builtin_list, t_env *env)
 {
 	t_command	*command;
-
+	char		**path;
+	
 	command = (t_command *)malloc(sizeof(t_command));
-	if (!command)
+	path = ft_split(get_env_content("PATH", env), ':');
+	if (!command || !path)
+	{
+		if (!path)
+			ft_printf("%s: command not found\n", (*token)->content);
 		return (NULL);
+	}
 	command->exec_path = NULL;
 	if (is_builtin((*token)->content, builtin_list))
 		command->builtin = 1;
