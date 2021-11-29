@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 10:15:10 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 10:43:55 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	main(int argc, char **argv, char **env)
 	while (g_shell_config->last_exit_status != 59136)
 	{
 		pipeline = (t_pipeline *)malloc(sizeof(t_pipeline));
-		if (!pipeline)
-			exit(-1);
 		buffer = readline("minishell>");
+		if (!pipeline || !buffer)
+			exit(-1);
 		if (buffer && buffer[0])
 			add_history(buffer);
 		pipeline->token_list = tokenizer(buffer, g_shell_config->env,
