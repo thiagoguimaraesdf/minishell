@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 15:13:13 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:22:37 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void	exec(t_pipeline **pipeline)
 		if ((*pipeline)->total_commands > 1)
 			handle_pipe(command);
 		child_pid = fork();
+		handle_exec_signals();
 		if (child_pid == 0)
 		{
 			handle_redirection(command);

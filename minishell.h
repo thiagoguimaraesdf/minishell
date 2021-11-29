@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 15:28:50 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:23:38 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ typedef struct s_config {
 
 t_config	*g_shell_config;
 
+// general
 void		handle_signals(void);
+void		handle_exec_signals(void);
 t_command	*parser(t_pipeline **pipeline, t_config *g_shell_config);
 int			commandChecker(t_command *command);
 void		exec(t_pipeline **pipeline);

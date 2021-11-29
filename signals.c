@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:11:29 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 10:39:03 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:26:14 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,30 @@ static void	handle_interrupt(int sig_num)
 	return ;
 }
 
+static void	fork_int(int signal)
+{
+	(void)signal;
+	g_shell_config->last_exit_status = 130;
+	write(1, "\n", 1);
+}
+
+static void	fork_quit(int signal)
+{
+	(void)signal;
+	g_shell_config->last_exit_status = 131;
+	ft_printf("Quit\n");
+}
+
 void	handle_signals(void)
 {
-	// handle "Crtl+C" to ignore following line and jump to next waiting prompt
 	signal(SIGINT, handle_interrupt);
-	// ignore "Crtl+Z"
-	// signal(SIGTSTP, SIG_IGN);
-	// ignore "Ctrl+\"
 	signal(SIGQUIT, SIG_IGN);
+	return ;
+}
+
+void	handle_exec_signals(void)
+{
+	signal(SIGINT, fork_int);
+	signal(SIGQUIT, fork_quit);
 	return ;
 }
