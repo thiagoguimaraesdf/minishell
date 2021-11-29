@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 10:37:11 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 15:22:37 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 16:36:35 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	exec_builtin(t_pipeline **pipeline)
 		my_echo(command->args);
 	else if (!ft_strncmp(command->command, "exit", 4))
 		my_exit(pipeline);
-	exit(0);
+	g_shell_config->last_exit_status = 0;
 }
 
 static int	read_from_source(t_command *command)
@@ -128,23 +128,21 @@ void	exec(t_pipeline **pipeline)
 	{
 		if ((*pipeline)->total_commands > 1)
 			handle_pipe(command);
-		child_pid = fork();
-		handle_exec_signals();
-		if (child_pid == 0)
-		{
-			handle_redirection(command);
-			if (command->builtin)
-				exec_builtin(pipeline);
-			else
+		handle_redirection(command);
+		if (command->builtin)
+			exec_builtin(pipeline);
+		else
+		{			
+			child_pid = fork();
+			handle_exec_signals();
+			if (child_pid == 0)
 				execve(command->exec_path, command->args,
 					t_env_to_array(g_shell_config->env));
+			else
+				waitpid(child_pid, &g_shell_config->last_exit_status, 0);
 		}
-		else
-		{
-			waitpid(child_pid, &g_shell_config->last_exit_status, 0);
-			dup2(g_shell_config->stdin, 0);
-			dup2(g_shell_config->stdout, 1);
-		}
+		dup2(g_shell_config->stdin, 0);
+		dup2(g_shell_config->stdout, 1);
 		command = command->next;
 	}
 }
