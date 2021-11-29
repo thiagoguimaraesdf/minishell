@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 14:30:54 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/20 07:07:49 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/29 10:13:59 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static int	init_command_helper(t_command **command, char *content)
 t_command	*init_command(t_token **token, char **builtin_list, char **path)
 {
 	t_command	*command;
+	char		*cur_dir;
 
 	command = (t_command *)malloc(sizeof(t_command));
 	if (!command)
@@ -74,7 +75,8 @@ t_command	*init_command(t_token **token, char **builtin_list, char **path)
 		command->builtin = 1;
 	else
 	{
-		command->exec_path = find_executable((*token)->content, my_pwd(), path);
+		cur_dir = getcwd(cur_dir, 100);
+		command->exec_path = find_executable((*token)->content, cur_dir, path);
 		if (!command->exec_path)
 		{
 			ft_printf("%s: command not found\n", (*token)->content);
