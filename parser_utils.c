@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 14:30:54 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 15:12:15 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:53:56 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	check_valid_path(char *command)
 	}	
 }
 
-static char	*find_executable(char *command, char *cur_dir, char **path)
+static char	*find_executable(char *command, char **path)
 {
 	char		*new_command;
 	char		*full_path;
@@ -36,7 +36,6 @@ static char	*find_executable(char *command, char *cur_dir, char **path)
 	int			i;
 
 	i = 0;
-	new_command = ft_strjoin("/", command);
 	if (!ft_strncmp(command, "./", 2) || !ft_strncmp(command, "/", 1))
 	{
 		check_valid_path(command);
@@ -44,11 +43,16 @@ static char	*find_executable(char *command, char *cur_dir, char **path)
 	}
 	else
 	{
+		new_command = ft_strjoin("/", command);
 		while (path[i])
 		{
 			full_path = ft_strjoin(path[i], new_command);
 			if (stat(full_path, &stat_buf) >= 0)
+			{
+				free(new_command);
 				return (full_path);
+			}
+			free(full_path);
 			i++;
 		}
 	}
@@ -71,7 +75,6 @@ static int	init_command_helper(t_command **command, char *content)
 t_command	*init_command(t_token **token, char **builtin_list, char **path)
 {
 	t_command	*command;
-	char		*cur_dir;
 
 	command = (t_command *)malloc(sizeof(t_command));
 	if (!command)
@@ -81,8 +84,7 @@ t_command	*init_command(t_token **token, char **builtin_list, char **path)
 		command->builtin = 1;
 	else
 	{
-		cur_dir = getcwd(cur_dir, 100);
-		command->exec_path = find_executable((*token)->content, cur_dir, path);
+		command->exec_path = find_executable((*token)->content, path);
 		if (!command->exec_path)
 		{
 			ft_printf("%s: command not found\n", (*token)->content);
