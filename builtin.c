@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 12:01:13 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/29 10:31:08 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	my_unset(int total_args, char **args, t_env *env)
 		{
 			if (!ft_strncmp(*args, temp_env->content[0], ft_strlen(*args)))
 			{	
-				printf("delete:%s\n", temp_env->content[0]);
 				env_delete(&temp_env, &last_env);
 				break ;
 			}

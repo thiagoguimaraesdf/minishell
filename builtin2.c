@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:58:52 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/20 06:28:51 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/29 10:31:27 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	my_export(int total_args, char **args, t_env *env)
 	t_env	*cur_env;
 
 	env_args = 1;
-	printf("hey\n");
 	while (args && args[env_args])
 	{
 		if (!ft_strchr(args[env_args], '='))
