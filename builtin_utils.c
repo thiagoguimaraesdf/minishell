@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:06:59 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/18 15:11:44 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/30 05:10:21 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**bultin_init()
+char	**bultin_init(void)
 {
 	char		*builtins_string;
 	char		**builtin_list;

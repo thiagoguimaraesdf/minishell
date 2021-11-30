@@ -6,18 +6,18 @@
 /*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 15:32:12 by tguimara          #+#    #+#             */
-/*   Updated: 2021/10/15 06:21:06 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/11/30 05:42:30 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
+/*
 	t_token	*tokenizer(char *buffer, t_env *env, int exit_status)
     
 	A função find_path() é separar e rotular cada token disponível
 	no input do usuário. As definições dos tokens podem ser encontradas
-	na função token_type(), logo abaixo.                                                                    
+	na função token_type(), logo abaixo.
 */
 t_token	*tokenizer(char *buffer, t_env *env, int exit_status)
 {

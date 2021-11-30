@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:32:57 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 17:43:37 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/30 05:21:30 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_command	*parser(t_pipeline **pipeline, t_config *g_shell_config)
 			g_shell_config->env);
 	command = command_list;
 	if (!command)
-		return ((t_command *)NULL);
+		return ((t_command *) NULL);
 	while (token)
 	{
 		if (token && token->type == IS_PIPE)

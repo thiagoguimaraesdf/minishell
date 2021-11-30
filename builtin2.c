@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:58:52 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 10:37:38 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/30 05:11:30 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,5 @@ void	exit_minishell(void)
 void	my_exit(t_pipeline **pipeline)
 {
 	g_shell_config->should_continue = false;
-	// if (*pipeline)
-	// 	free_pipeline(pipeline);
-	//if (*shell_config)
-		//free_config(shell_config);
 	exit(EXIT_NUMBER);
 }

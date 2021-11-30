@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 09:47:07 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 10:43:55 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/30 05:15:50 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <readline/history.h>
 #include "minishell.h"
 
-static int	init_minishell(char **env);
-static char	**find_path(char **env);
 /*
 	MINISHELL
 	
@@ -56,8 +54,6 @@ int	main(int argc, char **argv, char **env)
 		buffer = NULL;
 		pipeline->command_list = parser(&pipeline, g_shell_config);
 		exec(&pipeline);
-		// free_pipeline(&pipeline);
-		//printf("Exit_status: %d\n", g_shell_config->last_exit_status);
 	}
 	exit_minishell(g_shell_config);
 	return (0);

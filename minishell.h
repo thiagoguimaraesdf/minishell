@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 17:43:13 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/30 14:55:54 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,11 @@ typedef struct s_config {
 
 t_config	*g_shell_config;
 
+// Minishell.c
+int			main(int argc, char **argv, char **env);
+static int	init_minishell(char **env);
+static char	**find_path(char **env);
+
 // general
 void		handle_signals(void);
 void		handle_exec_signals(void);
@@ -106,7 +111,7 @@ int			commandChecker(t_command *command);
 void		exec(t_pipeline **pipeline);
 
 // builtin
-char		**bultin_init();
+char		**bultin_init(void);
 int			is_builtin(char *command, char **builtinList);
 void		callBuiltin(t_command *command, t_env **env);
 char		*my_pwd(void);
@@ -120,7 +125,7 @@ void		my_exit(t_pipeline **pipeline);
 void		identifier_error(char *str, char ***temp_arg, int total_args);
 void		no_equal_handler(char *str);
 
-void		exit_minishell();
+void		exit_minishell(void);
 
 // exit
 void		free_pipeline(t_pipeline **pipeline);
@@ -144,12 +149,14 @@ void		update_env(char **temp_arg, t_env *env);
 t_token		*tokenizer(char *buffer, t_env *env, int exit_status);
 int			token_type(char c);
 int			expand_var(char *str, t_token **token, t_env *env, int exit_status);
-int			read_string(char *str, t_token **token, t_env *env, int exit_status);
+int			read_string(char *str, t_token **token, t_env *env,
+				int exit_status);
 int			read_redir(char *str, t_token **token);
 int			read_token(char *str, t_token **token);
 size_t		read_pipe(t_token **token);
 static t_token	*init_token(int type, char *content);
-static size_t	token_router(char *buffer, t_token **token, t_env *env, int exit_status);
+static size_t	token_router(char *buffer, t_token **token, t_env *env,
+				int exit_status);
 
 // utils
 int			end_var_pos(char *str);
@@ -159,6 +166,6 @@ t_command	*init_command(t_token **token, char **builtin_list, t_env *env);
 
 // free
 void		free_pipeline(t_pipeline **pipeline);
-void		free_config();
+void		free_config(void);
 
 #endif
