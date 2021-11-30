@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 14:30:54 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 17:46:54 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/30 05:21:09 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_command	*init_command(t_token **token, char **builtin_list, t_env *env)
 {
 	t_command	*command;
 	char		**path;
-	
+
 	command = (t_command *)malloc(sizeof(t_command));
 	path = ft_split(get_env_content("PATH", env), ':');
 	if (!command || !path)

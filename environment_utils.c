@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:53 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 16:53:37 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/30 05:12:01 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 char	**t_env_to_array(t_env *env_list)
 {
 	char	**env_array;
-	char 	*temp;
+	char	*temp;
 	int		i;
 
 	env_array = (char **)malloc(sizeof(char *) * env_size(env_list) + 1);

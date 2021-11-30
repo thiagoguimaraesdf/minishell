@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 10:02:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/29 10:31:08 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/11/30 05:11:08 by lmartins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	my_cd(int total_args, char **args)
 		write(1, "-myshell: cd: too many arguments", 32);
 		return ;
 	}
-	// INCLUIR -bash: cd: dsadas: No such file or directory CASO DIRETORIO NAO EXISTA
 	if (args && args[1])
 		chdir_return = chdir((const char *)args[1]);
 }
