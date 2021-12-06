@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 15:32:12 by tguimara          #+#    #+#             */
-/*   Updated: 2021/12/06 11:02:11 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/12/06 14:36:55 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static t_token	*init_token(int type, char *content);
 static size_t	token_router(char *buffer, t_token **token,
 					t_env *env, int exit_status);
+
 /*
 	t_token	*tokenizer(char *buffer, t_env *env, int exit_status)
     
