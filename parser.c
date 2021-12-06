@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:32:57 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/30 05:21:30 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/12/06 10:59:46 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static int	handle_pipe(t_pipeline **pipeline, t_command **command,
 
 t_command	*parser(t_pipeline **pipeline, t_config *g_shell_config)
 {
-	int			total_args;
 	t_token		*token;
 	t_command	*command_list;
 	t_command	*command;

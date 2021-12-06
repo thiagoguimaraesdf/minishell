@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 14:30:54 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/30 05:21:09 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/12/06 10:56:33 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_valid_path(char *command)
+char	*check_valid_path(char *command)
 {
 	struct stat	stat_buf;
 
@@ -25,7 +25,8 @@ void	check_valid_path(char *command)
 	{
 		ft_printf("bash: %s: Is a directory\n", command);
 		g_shell_config->last_exit_status = 126;
-	}	
+	}
+	return (command);
 }
 
 static char	*find_executable(char *command, char **path)
@@ -37,10 +38,7 @@ static char	*find_executable(char *command, char **path)
 
 	i = 0;
 	if (!ft_strncmp(command, "./", 2) || !ft_strncmp(command, "/", 1))
-	{
-		check_valid_path(command);
-		return (command);
-	}
+		return (check_valid_path(command));
 	else
 	{
 		new_command = ft_strjoin("/", command);
@@ -72,6 +70,13 @@ static int	init_command_helper(t_command **command, char *content)
 	return (0);
 }
 
+static t_command	*print_and_return(char **path, t_token **token)
+{
+	if (!path)
+		ft_printf("%s: command not found\n", (*token)->content);
+	return ((t_command *) NULL);
+}
+
 t_command	*init_command(t_token **token, char **builtin_list, t_env *env)
 {
 	t_command	*command;
@@ -80,11 +85,7 @@ t_command	*init_command(t_token **token, char **builtin_list, t_env *env)
 	command = (t_command *)malloc(sizeof(t_command));
 	path = ft_split(get_env_content("PATH", env), ':');
 	if (!command || !path)
-	{
-		if (!path)
-			ft_printf("%s: command not found\n", (*token)->content);
-		return (NULL);
-	}
+		return (print_and_return(path, token));
 	command->exec_path = NULL;
 	if (is_builtin((*token)->content, builtin_list))
 		command->builtin = 1;

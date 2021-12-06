@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 13:12:00 by tguimara          #+#    #+#             */
-/*   Updated: 2021/11/30 14:55:54 by lmartins         ###   ########.fr       */
+/*   Updated: 2021/12/06 10:51:22 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static char	**find_path(char **env);
 
 // general
 void		handle_signals(void);
-void		handle_exec_signals(void);
+int			handle_exec_signals(void);
 t_command	*parser(t_pipeline **pipeline, t_config *g_shell_config);
 int			commandChecker(t_command *command);
 void		exec(t_pipeline **pipeline);
@@ -154,9 +154,6 @@ int			read_string(char *str, t_token **token, t_env *env,
 int			read_redir(char *str, t_token **token);
 int			read_token(char *str, t_token **token);
 size_t		read_pipe(t_token **token);
-static t_token	*init_token(int type, char *content);
-static size_t	token_router(char *buffer, t_token **token, t_env *env,
-				int exit_status);
 
 // utils
 int			end_var_pos(char *str);
